@@ -36,6 +36,8 @@ public class Settings {
         this.partyPrivacy = partyPrivacy;
         this.isVoteSystemOn = isVoteSystemOn;
     }
+    
+    public Settings() {}
 
     public long getSettingsId() {
         return settingsId;

@@ -29,6 +29,8 @@ public class SongInfo {
         this.timeSongAdded = timeSongAdded;
         this.voter = voter;
     }
+    
+    public SongInfo() {}
 
     public long getSongID() {
         return songID;

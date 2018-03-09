@@ -23,6 +23,8 @@ public class Contacts {
         this.contactID = contactID;
         this.user = user;
     }
+    
+    public Contacts() {}
 
     public long getContactID() {
         return contactID;

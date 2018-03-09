@@ -60,6 +60,7 @@ public class Users {
         this.spotifyAuth = spotifyAuth;
     }
 
+    public Users() {}
 
     public long getUserID() {
         return userID;

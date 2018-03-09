@@ -10,6 +10,8 @@ public class PlayQueue {
         super();
         this.smarterQueue = smarterQueue;
     }
+    
+    public PlayQueue() {}
 
 
     public LinkedList<SongInfo> getSmarterQueue() {

@@ -46,6 +46,8 @@ public class SpotifyAuthentication {
         this.timeLeftTillRefresh = timeLeftTillRefresh;
     }
 
+    public SpotifyAuthentication() {}
+    
     public String getAuthenticationToken() {
         return authenticationToken;
     }

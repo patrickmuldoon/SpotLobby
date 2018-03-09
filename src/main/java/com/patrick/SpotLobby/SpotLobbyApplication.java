@@ -1,14 +1,15 @@
 package com.patrick.SpotLobby;
 
-import org.hibernate.Session;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.hibernate.SessionFactory;
-import javax.persistence.*;
-import org.springframework.context.annotation.*;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
+@EntityScan(basePackages = { "com.patrick.SpotLobby.Beans" })
+@EnableJpaRepositories(basePackages = { "com.patrick.SpotLobby.DAO" })
 public class SpotLobbyApplication {
 
 	public static void main(String[] args) {

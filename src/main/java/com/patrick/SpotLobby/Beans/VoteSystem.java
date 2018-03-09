@@ -19,6 +19,8 @@ public class VoteSystem {
 
     private HashMap<Integer, SongInfo> currentVotes;
 
+    public VoteSystem() {}
+    
     public VoteSystem(long voteSystemId, Lobby lobby, HashMap<Integer, SongInfo> currentVotes) {
         super();
         this.voteSystemId = voteSystemId;

@@ -19,6 +19,8 @@ public class Voter {
         this.dislikes = dislikes;
     }
 
+    public Voter() {}
+    
     public int getLikes() {
         return likes;
     }

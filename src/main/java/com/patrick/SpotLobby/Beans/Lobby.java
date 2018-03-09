@@ -45,6 +45,8 @@ public class Lobby {
         this.voteSystem = voteSystem;
 //		this.queue = queue;
     }
+    
+    public Lobby() {}
 
     public long getLobbyId() {
         return lobbyId;

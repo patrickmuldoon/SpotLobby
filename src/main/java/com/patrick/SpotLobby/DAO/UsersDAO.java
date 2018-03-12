@@ -3,15 +3,13 @@ package com.patrick.SpotLobby.DAO;
 import com.patrick.SpotLobby.DAOManagers.UsersDAOManager;
 import com.patrick.SpotLobby.Beans.Users;
 import java.util.List;
-
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 
 
 public class UsersDAO implements UsersDAOManager {
@@ -22,8 +20,6 @@ public class UsersDAO implements UsersDAOManager {
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-
-
 
     @Transactional(isolation = Isolation.READ_COMMITTED,
             propagation = Propagation.REQUIRED,
@@ -63,8 +59,10 @@ public class UsersDAO implements UsersDAOManager {
     @Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED,
             rollbackFor=Exception.class)
     public Users findByEmail(String email) {
-        return (Users) sessionFactory.getCurrentSession().createCriteria(Users.class).
-                add(Restrictions.eq("email", email)).uniqueResult();
+    		String queryString = "From USERS where email = :email";
+    		Query<Users> query = sessionFactory.getCurrentSession().createQuery(queryString); 
+    		query.setParameter("email", "%" + email + "%");
+    		return null;
     }
 
     @Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED,

@@ -2,6 +2,9 @@ package com.patrick.SpotLobby.DAOManagers;
 import com.patrick.SpotLobby.Beans.Users;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface UsersDAOManager {
 
     public void create(Users user);

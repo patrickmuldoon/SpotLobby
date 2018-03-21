@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name="VOTE_SYSTEM")
 public class VoteSystem {
 
     @Id
@@ -52,5 +51,38 @@ public class VoteSystem {
         this.currentVotes = currentVotes;
     }
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((currentVotes == null) ? 0 : currentVotes.hashCode());
+		result = prime * result + ((lobby == null) ? 0 : lobby.hashCode());
+		result = prime * result + (int) (voteSystemId ^ (voteSystemId >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VoteSystem other = (VoteSystem) obj;
+		if (currentVotes == null) {
+			if (other.currentVotes != null)
+				return false;
+		} else if (!currentVotes.equals(other.currentVotes))
+			return false;
+		if (lobby == null) {
+			if (other.lobby != null)
+				return false;
+		} else if (!lobby.equals(other.lobby))
+			return false;
+		if (voteSystemId != other.voteSystemId)
+			return false;
+		return true;
+	}
 
 }

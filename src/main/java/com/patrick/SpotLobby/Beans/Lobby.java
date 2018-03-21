@@ -6,7 +6,6 @@ import java.net.ServerSocket;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Lobby")
 public class Lobby {
 
     @Id
@@ -19,16 +18,16 @@ public class Lobby {
     @Column(name="IS_SERVER_ON")
     private boolean isServerOn;
 
-    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
     private Users lobbyOwner;
 
 //	@OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
 //	private Users lobbyHost;
 
-    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
     private Settings lobbySettings;
 
-    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
     private VoteSystem voteSystem;
 
 //	//Will assess type later
@@ -171,5 +170,49 @@ public class Lobby {
     public void removeSong(int index){
         //add implementation
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (isServerOn ? 1231 : 1237);
+		result = prime * result + (int) (lobbyId ^ (lobbyId >>> 32));
+		result = prime * result + ((lobbyOwner == null) ? 0 : lobbyOwner.hashCode());
+		result = prime * result + ((lobbySettings == null) ? 0 : lobbySettings.hashCode());
+		result = prime * result + ((voteSystem == null) ? 0 : voteSystem.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Lobby other = (Lobby) obj;
+		if (isServerOn != other.isServerOn)
+			return false;
+		if (lobbyId != other.lobbyId)
+			return false;
+		if (lobbyOwner == null) {
+			if (other.lobbyOwner != null)
+				return false;
+		} else if (!lobbyOwner.equals(other.lobbyOwner))
+			return false;
+		if (lobbySettings == null) {
+			if (other.lobbySettings != null)
+				return false;
+		} else if (!lobbySettings.equals(other.lobbySettings))
+			return false;
+		if (voteSystem == null) {
+			if (other.voteSystem != null)
+				return false;
+		} else if (!voteSystem.equals(other.voteSystem))
+			return false;
+		return true;
+	}
+    
 }
 

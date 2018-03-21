@@ -3,7 +3,6 @@ package com.patrick.SpotLobby.Beans;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Settings")
 public class Settings {
 
     @Id
@@ -114,6 +113,49 @@ public class Settings {
     public void turnOnVoteSystem(){
         setVoteSystemOn(true);
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((genreRestriction == null) ? 0 : genreRestriction.hashCode());
+		result = prime * result + (isLobbyOpen ? 1231 : 1237);
+		result = prime * result + (isVoteSystemOn ? 1231 : 1237);
+		result = prime * result + ((partyPrivacy == null) ? 0 : partyPrivacy.hashCode());
+		result = prime * result + (int) (queueLength ^ (queueLength >>> 32));
+		result = prime * result + (int) (settingsId ^ (settingsId >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Settings other = (Settings) obj;
+		if (genreRestriction == null) {
+			if (other.genreRestriction != null)
+				return false;
+		} else if (!genreRestriction.equals(other.genreRestriction))
+			return false;
+		if (isLobbyOpen != other.isLobbyOpen)
+			return false;
+		if (isVoteSystemOn != other.isVoteSystemOn)
+			return false;
+		if (partyPrivacy == null) {
+			if (other.partyPrivacy != null)
+				return false;
+		} else if (!partyPrivacy.equals(other.partyPrivacy))
+			return false;
+		if (queueLength != other.queueLength)
+			return false;
+		if (settingsId != other.settingsId)
+			return false;
+		return true;
+	}
 
 }
 

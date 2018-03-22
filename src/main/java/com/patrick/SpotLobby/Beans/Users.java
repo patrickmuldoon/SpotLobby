@@ -1,14 +1,20 @@
 package com.patrick.SpotLobby.Beans;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Set;
 
 import javax.persistence.*;
 //map the database next, then try server again
 @Entity
-public class Users {
+public class Users implements Serializable{
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @Column(nullable=false, name="USERS_ID")
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long userID;
@@ -28,9 +34,6 @@ public class Users {
     @Column(name="EMAIL", nullable=false, unique=true)
     private String email;
 
-    @OneToMany(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<Contacts> contactList;
-
     @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
     private Lobby lobby;
 
@@ -42,25 +45,30 @@ public class Users {
 
     @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
     private SpotifyAuthentication spotifyAuthentication;
-
-    public Users(long userID, String firstName, String lastName, String username, String password, String email,
-                 Set<Contacts> contactList, Lobby lobby, Profile userProfile, Settings userSettings,
-                 SpotifyAuthentication spotifyAuth) {
-        super();
-        this.userID = userID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.contactList = contactList;
-        this.lobby = lobby;
-        this.userProfile = userProfile;
-        this.userSettings = userSettings;
-        this.spotifyAuthentication = spotifyAuth;
-    }
     
-    public Users(String firstName, String lastName, String userName, String password, String email) {
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(name="Friends", joinColumns = @JoinColumn(name="userID", referencedColumnName="USERS_ID"),
+    inverseJoinColumns = @JoinColumn(name="friend_ID", referencedColumnName="FRIEND_ID"))
+    private Set<Friend> friends;
+
+	public Users(long userID, String firstName, String lastName, String username, String password, String email,
+			Lobby lobby, Profile userProfile, Settings userSettings, SpotifyAuthentication spotifyAuthentication,
+			Set<Friend> friends) {
+		super();
+		this.userID = userID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.lobby = lobby;
+		this.userProfile = userProfile;
+		this.userSettings = userSettings;
+		this.spotifyAuthentication = spotifyAuthentication;
+		this.friends = friends;
+	}
+
+	public Users(String firstName, String lastName, String userName, String password, String email) {
     		this.firstName = firstName;
     		this.lastName = lastName;
     		this.username = userName;
@@ -70,122 +78,101 @@ public class Users {
 
     public Users() {}
 
-    public long getUserID() {
-        return userID;
-    }
+	public long getUserID() {
+		return userID;
+	}
 
+	public void setUserID(long userID) {
+		this.userID = userID;
+	}
 
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getUsername() {
+		return username;
+	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public String getPassword() {
+		return password;
+	}
 
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getEmail() {
+		return email;
+	}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public Lobby getLobby() {
+		return lobby;
+	}
 
+	public void setLobby(Lobby lobby) {
+		this.lobby = lobby;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public Profile getUserProfile() {
+		return userProfile;
+	}
 
+	public void setUserProfile(Profile userProfile) {
+		this.userProfile = userProfile;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public Settings getUserSettings() {
+		return userSettings;
+	}
 
+	public void setUserSettings(Settings userSettings) {
+		this.userSettings = userSettings;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public SpotifyAuthentication getSpotifyAuthentication() {
+		return spotifyAuthentication;
+	}
 
+	public void setSpotifyAuthentication(SpotifyAuthentication spotifyAuthentication) {
+		this.spotifyAuthentication = spotifyAuthentication;
+	}
+	
+	public Set<Friend> getFriends() {
+		return friends;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setFriends(Set<Friend> friends) {
+		this.friends = friends;
+	}
 
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-    public Set<Contacts> getContactList() {
-        return contactList;
-    }
-
-
-    public void setContactList(Set<Contacts> contactList) {
-        this.contactList = contactList;
-    }
-
-
-    public Lobby getLobby() {
-        return lobby;
-    }
-
-
-    public void setLobby(Lobby lobby) {
-        this.lobby = lobby;
-    }
-
-
-    public Profile getUserProfile() {
-        return userProfile;
-    }
-
-
-    public void setUserProfile(Profile userProfile) {
-        this.userProfile = userProfile;
-    }
-
-
-    public Settings getUserSettings() {
-        return userSettings;
-    }
-
-
-    public void setUserSettings(Settings userSettings) {
-        this.userSettings = userSettings;
-    }
-
-
-    public SpotifyAuthentication getSpotifyAuth() {
-        return spotifyAuthentication;
-    }
-
-
-    public void setSpotifyAuth(SpotifyAuthentication spotifyAuth) {
-        this.spotifyAuthentication = spotifyAuth;
-    }   
-    
-    @Override
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((contactList == null) ? 0 : contactList.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((friends == null) ? 0 : friends.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((lobby == null) ? 0 : lobby.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
@@ -206,11 +193,6 @@ public class Users {
 		if (getClass() != obj.getClass())
 			return false;
 		Users other = (Users) obj;
-		if (contactList == null) {
-			if (other.contactList != null)
-				return false;
-		} else if (!contactList.equals(other.contactList))
-			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -220,6 +202,11 @@ public class Users {
 			if (other.firstName != null)
 				return false;
 		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (friends == null) {
+			if (other.friends != null)
+				return false;
+		} else if (!friends.equals(other.friends))
 			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
@@ -261,6 +248,13 @@ public class Users {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Users [userID=" + userID + ", firstName=" + firstName + ", lastName=" + lastName + ", username="
+				+ username + ", password=" + password + ", email=" + email + ", lobby=" + lobby + ", userProfile="
+				+ userProfile + ", userSettings=" + userSettings + ", spotifyAuthentication=" + spotifyAuthentication
+				+ "]";
+	}
 
 	@Entity
     @Table(name="USER_PROFILE")

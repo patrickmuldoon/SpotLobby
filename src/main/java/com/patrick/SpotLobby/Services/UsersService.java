@@ -10,10 +10,12 @@ import com.patrick.SpotLobby.Beans.Users;
 public interface UsersService {
 	
 	List<Users> listAll();
-	
+
 	Users getById(long id);
 	
 	Users getByEmail(String email);
+	
+	Users getByUsername(String username);
 	
 	Users saveOrUpdate(Users user);
 	

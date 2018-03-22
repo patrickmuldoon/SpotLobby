@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface UsersDAO extends CrudRepository<Users, Long> {
 	Users getByEmail(String email);
 	
+	Users findByUsername(String username);
+	
 //	void deleteByEmail(String email);
 }

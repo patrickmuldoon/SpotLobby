@@ -2,10 +2,8 @@ package com.patrick.SpotLobby.Services;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.patrick.SpotLobby.Beans.Users;
 import com.patrick.SpotLobby.DAO.UsersDAO;
 
@@ -46,6 +44,11 @@ public class UsersServiceImpl implements UsersService {
 	public void delete(long id) {
 		usersDAO.deleteById(id);
 		
+	}
+
+	@Override
+	public Users getByUsername(String username) {
+		return usersDAO.findByUsername(username);
 	}
 
 //	@Override

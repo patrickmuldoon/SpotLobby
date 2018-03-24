@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.patrick.SpotLobby.SpotLobbyApplicationTests;
 import com.patrick.SpotLobby.Beans.Users;
@@ -35,9 +37,12 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 		user.setEmail("patrick@example.com" );
 		user.setUsername("muldoon20");
 		user.setPassword("password");
+		Users user2 = new Users("evan", "molinelli", "cunt", "passkey", "evan@example.com");
 		usersDAO.save(user);
+		usersDAO.save(user2);
 	}
 	
+	@Ignore
 	@Test
 	public void testFindByEmail() throws SQLException {
 		Users user = new Users();
@@ -57,6 +62,7 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 		assertEquals(user.getPassword(), queryUser.getPassword());
 	}
 	
+	@Ignore
 	@Test
 	public void testFindByID() {
 		Users user = new Users();
@@ -74,7 +80,7 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 		assertEquals(user.getUsername(), queryUser.getUsername());
 		assertEquals(user.getPassword(), queryUser.getPassword());
 	}
-	
+
 	@Test
 	public void testFindUserByUsername() {
 		Users user = new Users("patrick", "muldoon", "muldoon20", "password", "patrick@example.com");
@@ -88,6 +94,7 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 		assertEquals(user.getPassword(), queryUser.getPassword());
 	}
 	
+	@Ignore
 	@Test
 	public void testDeleteUserById() {
 		Users user = new Users("patrick", "muldoon", "pmuldoon10", "passkey", "pmuldoon@example.com");
@@ -97,6 +104,7 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 		assertNull(usersDAO.findById(id).orElse(null));
 	}
 	
+	@Ignore
 	@Test
 	public void testFindAllUsers() {
 		List<Users> usersList = (List<Users>) usersDAO.findAll();
@@ -109,6 +117,21 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 		expectedUsersList.add(user2);
 		assertEquals(usersList.size(), expectedUsersList.size());
 		assertEquals(usersList.get(0).getUsername(), expectedUsersList.get(0).getUsername());
+	}
+	
+	@Ignore
+	@Test
+	public void testAddFriend() {
+		Users user = usersDAO.findById((long) 1).orElse(null);
+		Users friend = usersDAO.findById((long) 2).orElse(null);
+	}
+	
+	@Test
+	@Transactional
+	public void testFindUserFriends() {
+		Users user = usersDAO.findById((long) 1).orElse(null);
+		System.out.println(user.getFriends().size());
+		//assertEquals(user.getFriends().size(), 1);
 	}
 	
 }

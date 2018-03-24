@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Set;
 
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 //map the database next, then try server again
 @Entity
 public class Users implements Serializable{
@@ -15,7 +16,7 @@ public class Users implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @Column(nullable=false, name="USERS_ID")
+    @Column(nullable=false, name="USERID")
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long userID;
 
@@ -43,17 +44,21 @@ public class Users implements Serializable{
     @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
     private Settings userSettings;
 
-    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    @OneToOne(cascade=CascadeType.PERSIST, targetEntity=Users.class, fetch=FetchType.EAGER)
     private SpotifyAuthentication spotifyAuthentication;
     
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name="Friends", joinColumns = @JoinColumn(name="userID", referencedColumnName="USERS_ID"),
-    inverseJoinColumns = @JoinColumn(name="friend_ID", referencedColumnName="FRIEND_ID"))
-    private Set<Friend> friends;
+    @ManyToMany(targetEntity=Users.class)
+    @JoinTable(name="Friends", joinColumns = @JoinColumn(name="userID", referencedColumnName="userID", nullable=false),
+    inverseJoinColumns = @JoinColumn(name="friend_ID", referencedColumnName="userID", nullable=false))
+    private Set<Users> userFriends;
+    
+    @ManyToMany(mappedBy="userFriends")
+    @JsonIgnore
+    private Set<Users> users;
 
 	public Users(long userID, String firstName, String lastName, String username, String password, String email,
 			Lobby lobby, Profile userProfile, Settings userSettings, SpotifyAuthentication spotifyAuthentication,
-			Set<Friend> friends) {
+			Set<Users> userFriends, Set<Users> users) {
 		super();
 		this.userID = userID;
 		this.firstName = firstName;
@@ -65,7 +70,8 @@ public class Users implements Serializable{
 		this.userProfile = userProfile;
 		this.userSettings = userSettings;
 		this.spotifyAuthentication = spotifyAuthentication;
-		this.friends = friends;
+		this.userFriends = userFriends;
+		this.users = users;
 	}
 
 	public Users(String firstName, String lastName, String userName, String password, String email) {
@@ -158,12 +164,20 @@ public class Users implements Serializable{
 		this.spotifyAuthentication = spotifyAuthentication;
 	}
 	
-	public Set<Friend> getFriends() {
-		return friends;
+	public Set<Users> getFriends() {
+		return userFriends;
 	}
 
-	public void setFriends(Set<Friend> friends) {
-		this.friends = friends;
+	public void setFriends(Set<Users> userFriends) {
+		this.userFriends = userFriends;
+	}
+	
+	public Set<Users> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<Users> users) {
+		this.users = users;
 	}
 
 	@Override
@@ -172,7 +186,7 @@ public class Users implements Serializable{
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((friends == null) ? 0 : friends.hashCode());
+		result = prime * result + ((userFriends == null) ? 0 : userFriends.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((lobby == null) ? 0 : lobby.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
@@ -181,6 +195,7 @@ public class Users implements Serializable{
 		result = prime * result + ((userProfile == null) ? 0 : userProfile.hashCode());
 		result = prime * result + ((userSettings == null) ? 0 : userSettings.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		return result;
 	}
 
@@ -203,10 +218,10 @@ public class Users implements Serializable{
 				return false;
 		} else if (!firstName.equals(other.firstName))
 			return false;
-		if (friends == null) {
-			if (other.friends != null)
+		if (userFriends == null) {
+			if (other.userFriends != null)
 				return false;
-		} else if (!friends.equals(other.friends))
+		} else if (!userFriends.equals(other.userFriends))
 			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
@@ -245,6 +260,11 @@ public class Users implements Serializable{
 				return false;
 		} else if (!username.equals(other.username))
 			return false;
+		if (users == null) {
+			if (other.users != null)
+				return false;
+		} else if (!users.equals(other.users))
+			return false;
 		return true;
 	}
 
@@ -253,7 +273,7 @@ public class Users implements Serializable{
 		return "Users [userID=" + userID + ", firstName=" + firstName + ", lastName=" + lastName + ", username="
 				+ username + ", password=" + password + ", email=" + email + ", lobby=" + lobby + ", userProfile="
 				+ userProfile + ", userSettings=" + userSettings + ", spotifyAuthentication=" + spotifyAuthentication
-				+ "]";
+				+ ", friends=" + userFriends + ", users=" + users + "]";
 	}
 
 	@Entity

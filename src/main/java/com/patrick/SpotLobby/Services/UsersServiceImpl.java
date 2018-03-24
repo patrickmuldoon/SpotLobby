@@ -1,9 +1,17 @@
 package com.patrick.SpotLobby.Services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.patrick.SpotLobby.Beans.Users;
 import com.patrick.SpotLobby.DAO.UsersDAO;
 
@@ -24,7 +32,9 @@ public class UsersServiceImpl implements UsersService {
 		return users;
 	}
 
+	
 	@Override
+	@Transactional
 	public Users getById(long id) {
 		return usersDAO.findById(id).orElse(null);
 	}
@@ -50,6 +60,7 @@ public class UsersServiceImpl implements UsersService {
 	public Users getByUsername(String username) {
 		return usersDAO.findByUsername(username);
 	}
+
 
 //	@Override
 //	public void delete(String email) {

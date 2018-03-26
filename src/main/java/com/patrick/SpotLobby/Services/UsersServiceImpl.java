@@ -34,7 +34,8 @@ public class UsersServiceImpl implements UsersService {
 
 	
 	@Override
-	@Transactional
+	@Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED,
+			rollbackFor=Exception.class)
 	public Users getById(long id) {
 		return usersDAO.findById(id).orElse(null);
 	}

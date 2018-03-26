@@ -17,7 +17,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.patrick.SpotLobby.SpotLobbyApplicationTests;
+import com.patrick.SpotLobby.Beans.Followers;
 import com.patrick.SpotLobby.Beans.Users;
+import com.patrick.SpotLobby.DAO.FollowersDAO;
 import com.patrick.SpotLobby.DAO.UsersDAO;
 
 
@@ -27,6 +29,9 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 
 	@Autowired
 	private UsersDAO usersDAO;
+	
+	@Autowired
+	private FollowersDAO followersDAO;
 	
 	@Ignore
 	@Test
@@ -121,17 +126,39 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 	
 	@Ignore
 	@Test
-	public void testAddFriend() {
+	public void testSaveAFollower() {
 		Users user = usersDAO.findById((long) 1).orElse(null);
 		Users friend = usersDAO.findById((long) 2).orElse(null);
+		//Followers follower = new Followers(friend, user);
+		//user.getFollowers().add(follower);
+		//usersDAO.save(user);
+		assertEquals(user.getFollowers().size(), 1);
+		//user.getFollowers().remove(follower);
+		if(user.getFollowers().isEmpty())
+			System.out.println("followers empty");
+		usersDAO.save(user);
+		assertEquals(user.getFollowers().size(), 0);
 	}
 	
+	@Ignore
 	@Test
-	@Transactional
-	public void testFindUserFriends() {
-		Users user = usersDAO.findById((long) 1).orElse(null);
-		System.out.println(user.getFriends().size());
-		//assertEquals(user.getFriends().size(), 1);
+	public void testFollowerCount() {
+		Users user = usersDAO.findById((long)1).orElse(null);
+		List<Followers> followers = followersDAO.findAllFollowersByUserID(user.getUserID());
+		user.getFollowers().addAll(followers);
+		assertEquals(user.getFollowers().size(), 1);
+	}
+	
+	@Ignore
+	@Test
+	public void removeFollower() {
+		Followers follower = followersDAO.findFollowerByUserIDAndFollowerID(usersDAO.findById((long)1).orElse(null).getUserID(),
+				usersDAO.findById((long)2).orElse(null).getUserID());
+		System.out.println(follower.getId());
+		followersDAO.deleteById(follower.getId());
+		followersDAO.delete(follower);
+		assertNull(followersDAO.findFollowerByUserIDAndFollowerID(usersDAO.findById((long)1).orElse(null).getUserID(),
+				usersDAO.findById((long)2).orElse(null).getUserID()));
 	}
 	
 }

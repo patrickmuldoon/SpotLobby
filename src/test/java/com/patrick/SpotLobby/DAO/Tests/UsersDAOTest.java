@@ -161,4 +161,11 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 				usersDAO.findById((long)2).orElse(null).getUserID()));
 	}
 	
+	@Test
+	public void testCreateUser() {
+		Users user = new Users("ryan", "homa", "panama", "pass", "ryan@example.com");
+		usersDAO.save(user);
+		List<Users> users = (List<Users>) usersDAO.findAll();
+		assertEquals(users.size(), 3);
+	}
 }

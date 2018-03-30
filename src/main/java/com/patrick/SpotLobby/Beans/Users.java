@@ -2,10 +2,15 @@ package com.patrick.SpotLobby.Beans;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -53,15 +58,30 @@ public class Users implements Serializable{
     
     @JsonIgnore
     @OneToMany(mappedBy="follower", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<Followers> followers;
+    private List<Followers> followers;
     
     @JsonIgnore
-    @OneToMany(mappedBy="followingUser", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<Following> following;
+    @OneToMany(mappedBy="following", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Followers> followingUsers;
     
-	public Users(long userID, String firstName, String lastName, String username, String password, String email,
+//    @JsonIgnore
+//    @OneToMany(mappedBy="followingUser", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+//    private Set<Following> following;
+    
+	public Users(String firstName, String lastName, String userName, String password, String email) {
+    		this.firstName = firstName;
+    		this.lastName = lastName;
+    		this.username = userName;
+    		this.password = password;
+    		this.email = email;
+    		this.followers = Collections.emptyList();
+   		this.followingUsers = Collections.emptyList();
+    }
+
+    public Users(long userID, String firstName, String lastName, String username, String password, String email,
 			Lobby lobby, Profile userProfile, Settings userSettings, SpotifyAuthentication spotifyAuthentication,
-			Set<Followers> followers, Set<Following> following) {
+			List<Followers> followers, List<Followers> followingUsers) {
 		super();
 		this.userID = userID;
 		this.firstName = firstName;
@@ -74,18 +94,19 @@ public class Users implements Serializable{
 		this.userSettings = userSettings;
 		this.spotifyAuthentication = spotifyAuthentication;
 		this.followers = followers;
-		this.following = following;
+		this.followingUsers = followingUsers;
 	}
 
-	public Users(String firstName, String lastName, String userName, String password, String email) {
-    		this.firstName = firstName;
-    		this.lastName = lastName;
-    		this.username = userName;
-    		this.password = password;
-    		this.email = email;
-    }
+	public Users(long userID, String firstName, String lastName, String username, List<Followers> followers) {
+		super();
+		this.userID = userID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.followers = followers;
+	}
 
-    public Users() {}
+	public Users() {}
 
 	public long getUserID() {
 		return userID;
@@ -166,27 +187,26 @@ public class Users implements Serializable{
 	public void setSpotifyAuthentication(SpotifyAuthentication spotifyAuthentication) {
 		this.spotifyAuthentication = spotifyAuthentication;
 	}
-
-	public Set<Followers> getFollowers() {
+	
+	public List<Followers> getFollowers() {
 		return followers;
 	}
 
-	public void setFollowers(Set<Followers> followers) {
+	public void setFollowers(List<Followers> followers) {
 		this.followers = followers;
 	}
 
-	public Set<Following> getFollowing() {
-		return following;
+	public List<Followers> getFollowingUsers() {
+		return followingUsers;
 	}
 
-	public void setFollowing(Set<Following> following) {
-		this.following = following;
+	public void setFollowingUsers(List<Followers> followingUsers) {
+		this.followingUsers = followingUsers;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -223,16 +243,6 @@ public class Users implements Serializable{
 			if (other.firstName != null)
 				return false;
 		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (followers == null) {
-			if (other.followers != null)
-				return false;
-		} else if (!followers.equals(other.followers))
-			return false;
-		if (following == null) {
-			if (other.following != null)
-				return false;
-		} else if (!following.equals(other.following))
 			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
@@ -279,8 +289,9 @@ public class Users implements Serializable{
 		return "Users [userID=" + userID + ", firstName=" + firstName + ", lastName=" + lastName + ", username="
 				+ username + ", password=" + password + ", email=" + email + ", lobby=" + lobby + ", userProfile="
 				+ userProfile + ", userSettings=" + userSettings + ", spotifyAuthentication=" + spotifyAuthentication
-				+ ", followers=" + followers + ", following=" + following + "]";
+				+ "]";
 	}
+
 
 	@Entity
     @Table(name="USER_PROFILE")

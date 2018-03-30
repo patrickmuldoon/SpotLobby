@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,17 +23,26 @@ import com.patrick.SpotLobby.Beans.Followers;
 import com.patrick.SpotLobby.Beans.Users;
 import com.patrick.SpotLobby.DAO.FollowersDAO;
 import com.patrick.SpotLobby.DAO.UsersDAO;
+import com.patrick.SpotLobby.Services.UsersService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class UsersDAOTest extends SpotLobbyApplicationTests{
+public class UsersDAOTest extends SpotLobbyTests{
 
 	@Autowired
 	private UsersDAO usersDAO;
 	
 	@Autowired
 	private FollowersDAO followersDAO;
+	
+	@Autowired
+	private UsersService usersService;
+	
+//	@Autowired
+//	private FollowingService followingService;
+	
+	private static final String FOLLOWERS_COUNT = "select count(id) from FOLLOWERS";
 	
 	@Ignore
 	@Test
@@ -132,12 +143,12 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 		//Followers follower = new Followers(friend, user);
 		//user.getFollowers().add(follower);
 		//usersDAO.save(user);
-		assertEquals(user.getFollowers().size(), 1);
-		//user.getFollowers().remove(follower);
-		if(user.getFollowers().isEmpty())
-			System.out.println("followers empty");
-		usersDAO.save(user);
-		assertEquals(user.getFollowers().size(), 0);
+//		assertEquals(user.getFollowers().size(), 1);
+//		//user.getFollowers().remove(follower);
+//		if(user.getFollowers().isEmpty())
+//			System.out.println("followers empty");
+//		usersDAO.save(user);
+//		assertEquals(user.getFollowers().size(), 0);
 	}
 	
 	@Ignore
@@ -145,8 +156,8 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 	public void testFollowerCount() {
 		Users user = usersDAO.findById((long)1).orElse(null);
 		List<Followers> followers = followersDAO.findAllFollowersByUserID(user.getUserID());
-		user.getFollowers().addAll(followers);
-		assertEquals(user.getFollowers().size(), 1);
+//		user.getFollowers().addAll(followers);
+//		assertEquals(user.getFollowers().size(), 1);
 	}
 	
 	@Ignore
@@ -161,11 +172,44 @@ public class UsersDAOTest extends SpotLobbyApplicationTests{
 				usersDAO.findById((long)2).orElse(null).getUserID()));
 	}
 	
+	@Ignore
 	@Test
 	public void testCreateUser() {
-		Users user = new Users("ryan", "homa", "panama", "pass", "ryan@example.com");
-		usersDAO.save(user);
+		Users user = new Users("ciaran", "slattery", "brooklyn", "passpass", "ciaran@example.com");
+		usersService.saveOrUpdate(user);
 		List<Users> users = (List<Users>) usersDAO.findAll();
-		assertEquals(users.size(), 3);
+		assertEquals(users.size(), 5);
 	}
+	
+	@Ignore
+	@Test
+	public void testUserFollowingAnotherUser() {
+		Users follower = usersService.getById((long)3);
+		Users following = usersService.getById((long)2);
+		Followers newFollower = new Followers(follower, following);
+		Long beforeCount = jdbcTemplate.queryForObject(FOLLOWERS_COUNT, Long.class);
+		following.getFollowingUsers().add(newFollower);
+		usersService.saveOrUpdate(following);
+		Long afterCount = jdbcTemplate.queryForObject(FOLLOWERS_COUNT, Long.class);
+		assertEquals(++beforeCount, afterCount);
+		follower.setFollowers(usersDAO.findAllFollowersByUserID(follower.getUserID()));
+		following.setFollowingUsers(usersDAO.findAllFollowingByUserID(following.getUserID()));
+		assertEquals(follower.getFollowers().size(), 1);
+		assertEquals(following.getFollowingUsers().size(), 2);
+	}
+	
+	@Test
+	public void testFindUserFollowers() {
+		Users user = usersService.getById((long)3);
+		user.setFollowers(usersDAO.findAllFollowersByUserID(user.getUserID()));
+		assertEquals(user.getFollowers().size(), 1);
+	}
+	
+	@Test 
+	public void testFindUserFollowing() {
+		Users user = usersService.getById((long)3);
+		user.setFollowingUsers(usersDAO.findAllFollowingByUserID(user.getUserID()));
+		assertEquals(user.getFollowingUsers().size(), 2);
+	}
+	
 }

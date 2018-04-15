@@ -10,12 +10,13 @@ public class Lobby {
 
     @Id
     @Column(nullable=false, name="LOBBY_ID")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="LOBBYID_SEQUENCE")
+	@SequenceGenerator(name="LOBBYID_SEQUENCE", sequenceName="LOBBYID_SEQUENCE")
     private long lobbyId;
 
 //	private ServerSocket lobbyServer;
 
-    @Column(name="IS_SERVER_ON")
+    @Column(name="IS_SERVER_ON", nullable=false)
     private boolean isServerOn;
 
     @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
@@ -45,7 +46,15 @@ public class Lobby {
 //		this.queue = queue;
     }
     
-    public Lobby() {}
+    public Lobby(boolean isServerOn, Users lobbyOwner) {
+		super();
+		this.isServerOn = isServerOn;
+		this.lobbyOwner = lobbyOwner;
+	}
+
+	public Lobby() {
+    		super();
+    }
 
     public long getLobbyId() {
         return lobbyId;

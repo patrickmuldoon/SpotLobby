@@ -7,26 +7,28 @@ public class Settings {
 
     @Id
     @Column(nullable=false, name="SETTINGS_ID")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SETTINGSID_SEQUENCE")
+	@SequenceGenerator(name="SETTINGSID_SEQUENCE", sequenceName="SETTINGSID_SEQUENCE")
     private long settingsId;
 
     @Column(nullable=false, name="QUEUE_LENGTH")
     private long queueLength;
 
-    @Column(nullable=false, name="GENRE_RESTRICTION")
+    @Column(name="GENRE_RESTRICTION")
     private String genreRestriction;
 
     @Column(nullable=false, name="IS_LOBBY_OPEN")
     private boolean isLobbyOpen;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable=false, name="PARTY_PRIVACY")
-    private String partyPrivacy;
+    private PartyPrivacy partyPrivacy;
 
     @Column(nullable=false, name="IS_VOTE_SYSTEM_ON")
     private boolean isVoteSystemOn;
 
     public Settings(long settingsId, long queueLength, String genreRestriction, boolean isLobbyOpen,
-                    String partyPrivacy, boolean isVoteSystemOn) {
+                    PartyPrivacy partyPrivacy, boolean isVoteSystemOn) {
         super();
         this.settingsId = settingsId;
         this.queueLength = queueLength;
@@ -36,7 +38,21 @@ public class Settings {
         this.isVoteSystemOn = isVoteSystemOn;
     }
     
-    public Settings() {}
+    public Settings(long queueLength, String genreRestriction, boolean isLobbyOpen, PartyPrivacy partyPrivacy,
+			boolean isVoteSystemOn) {
+		super();
+		this.queueLength = queueLength;
+		this.genreRestriction = genreRestriction;
+		this.isLobbyOpen = isLobbyOpen;
+		this.partyPrivacy = partyPrivacy;
+		this.isVoteSystemOn = isVoteSystemOn;
+	}
+
+
+
+	public Settings() {
+		super();
+	}
 
     public long getSettingsId() {
         return settingsId;
@@ -70,11 +86,11 @@ public class Settings {
         this.isLobbyOpen = isLobbyOpen;
     }
 
-    public String getPartyPrivacy() {
+    public PartyPrivacy getPartyPrivacy() {
         return partyPrivacy;
     }
 
-    public void setPartyPrivacy(String partyPrivacy) {
+    public void setPartyPrivacy(PartyPrivacy partyPrivacy) {
         this.partyPrivacy = partyPrivacy;
     }
 
@@ -92,18 +108,18 @@ public class Settings {
      * @param str
      */
     public void changePartyPrivacy(String str){
-        if(str == "Open"){
-            setLobbyOpen(true);
-            setPartyPrivacy("OPEN");
-        }
-        else if(str == "Friends"){
-            setLobbyOpen(true);
-            setPartyPrivacy("FRIENDS");
-        }
-        else{
-            setLobbyOpen(false);
-            setPartyPrivacy("CLOSED");
-        }
+//        if(str == "Open"){
+//            setLobbyOpen(true);
+//            setPartyPrivacy("OPEN");
+//        }
+//        else if(str == "Friends"){
+//            setLobbyOpen(true);
+//            setPartyPrivacy("FRIENDS");
+//        }
+//        else{
+//            setLobbyOpen(false);
+//            setPartyPrivacy("CLOSED");
+//        }
     }
 
     /**

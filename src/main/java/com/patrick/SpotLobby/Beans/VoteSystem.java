@@ -10,7 +10,8 @@ public class VoteSystem {
 
     @Id
     @Column(nullable=false, name="VOTE_SYSTEM_ID")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="VOTESYSTEMID_SEQUENCE")
+	@SequenceGenerator(name="VOTESYSTEMID_SEQUENCE", sequenceName="VOTESYSTEMID_SEQUENCE")
     private long voteSystemId;
 
     @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)

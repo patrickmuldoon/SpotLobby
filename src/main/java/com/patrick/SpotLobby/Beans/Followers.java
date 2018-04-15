@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -29,7 +30,8 @@ public class Followers implements Serializable{
 	 */
 	@Id
     @Column(nullable=false, name="ID")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ID_SEQUENCE")
+	@SequenceGenerator(name="ID_SEQUENCE", sequenceName="ID_SEQUENCE")
     private long id;
 	
 	@ManyToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)

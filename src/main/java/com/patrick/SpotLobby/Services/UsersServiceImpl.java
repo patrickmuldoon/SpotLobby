@@ -58,6 +58,8 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
+	@Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED,
+	rollbackFor=Exception.class)
 	public Users getByUsername(String username) {
 		return usersDAO.findByUsername(username);
 	}

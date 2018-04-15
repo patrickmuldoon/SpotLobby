@@ -1,20 +1,12 @@
 package com.patrick.SpotLobby.Beans;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.*;
-
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 //map the database next, then try server again
 @Entity
 public class Users implements Serializable{
@@ -26,7 +18,8 @@ public class Users implements Serializable{
 
 	@Id
     @Column(nullable=false, name="USERID")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USERID_SEQUENCE")
+	@SequenceGenerator(name="USERID_SEQUENCE", sequenceName="USERID_SEQUENCE")
     private long userID;
 
     @Column(name="FIRST_NAME", nullable=false)
@@ -47,11 +40,11 @@ public class Users implements Serializable{
     @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
     private Lobby lobby;
 
-    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private Profile userProfile;
 
-    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
-    private Settings userSettings;
+//    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+//    private Settings userSettings;
 
     @OneToOne(cascade=CascadeType.PERSIST, targetEntity=Users.class, fetch=FetchType.EAGER)
     private SpotifyAuthentication spotifyAuthentication;
@@ -64,6 +57,10 @@ public class Users implements Serializable{
     @OneToMany(mappedBy="following", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Followers> followingUsers;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name="USER_ROLE_TYPE")
+    private UserRoles userRoles;
     
 //    @JsonIgnore
 //    @OneToMany(mappedBy="followingUser", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
@@ -80,7 +77,7 @@ public class Users implements Serializable{
     }
 
     public Users(long userID, String firstName, String lastName, String username, String password, String email,
-			Lobby lobby, Profile userProfile, Settings userSettings, SpotifyAuthentication spotifyAuthentication,
+			Lobby lobby, Profile userProfile, SpotifyAuthentication spotifyAuthentication,
 			List<Followers> followers, List<Followers> followingUsers) {
 		super();
 		this.userID = userID;
@@ -91,7 +88,7 @@ public class Users implements Serializable{
 		this.email = email;
 		this.lobby = lobby;
 		this.userProfile = userProfile;
-		this.userSettings = userSettings;
+//		this.userSettings = userSettings;
 		this.spotifyAuthentication = spotifyAuthentication;
 		this.followers = followers;
 		this.followingUsers = followingUsers;
@@ -172,13 +169,13 @@ public class Users implements Serializable{
 		this.userProfile = userProfile;
 	}
 
-	public Settings getUserSettings() {
-		return userSettings;
-	}
-
-	public void setUserSettings(Settings userSettings) {
-		this.userSettings = userSettings;
-	}
+//	public Settings getUserSettings() {
+//		return userSettings;
+//	}
+//
+//	public void setUserSettings(Settings userSettings) {
+//		this.userSettings = userSettings;
+//	}
 
 	public SpotifyAuthentication getSpotifyAuthentication() {
 		return spotifyAuthentication;
@@ -207,6 +204,14 @@ public class Users implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public UserRoles getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(UserRoles userRoles) {
+		this.userRoles = userRoles;
+	}
 
 	@Override
 	public int hashCode() {
@@ -220,7 +225,7 @@ public class Users implements Serializable{
 		result = prime * result + ((spotifyAuthentication == null) ? 0 : spotifyAuthentication.hashCode());
 		result = prime * result + (int) (userID ^ (userID >>> 32));
 		result = prime * result + ((userProfile == null) ? 0 : userProfile.hashCode());
-		result = prime * result + ((userSettings == null) ? 0 : userSettings.hashCode());
+//		result = prime * result + ((userSettings == null) ? 0 : userSettings.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -271,11 +276,11 @@ public class Users implements Serializable{
 				return false;
 		} else if (!userProfile.equals(other.userProfile))
 			return false;
-		if (userSettings == null) {
-			if (other.userSettings != null)
-				return false;
-		} else if (!userSettings.equals(other.userSettings))
-			return false;
+//		if (userSettings == null) {
+//			if (other.userSettings != null)
+//				return false;
+//		} else if (!userSettings.equals(other.userSettings))
+//			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
@@ -288,112 +293,8 @@ public class Users implements Serializable{
 	public String toString() {
 		return "Users [userID=" + userID + ", firstName=" + firstName + ", lastName=" + lastName + ", username="
 				+ username + ", password=" + password + ", email=" + email + ", lobby=" + lobby + ", userProfile="
-				+ userProfile + ", userSettings=" + userSettings + ", spotifyAuthentication=" + spotifyAuthentication
+				+ userProfile + ", spotifyAuthentication=" + spotifyAuthentication
 				+ "]";
 	}
 
-
-	@Entity
-    @Table(name="USER_PROFILE")
-    private class Profile{
-
-        @Id
-        @Column(nullable=false, name="USER_PROFILE_ID")
-        @GeneratedValue(strategy=GenerationType.AUTO)
-        private long userProfileID;
-
-        private String bio;
-
-        @Column(name="PROFILE_PICTURE")
-        @Lob
-        private byte[] image;
-
-        public Profile(long userProfileId, String bio, byte[] image) {
-            super();
-            this.userProfileID = userProfileId;
-            this.bio = bio;
-            this.image = image;
-        }
-
-        /**
-         * @return the bio
-         */
-        public String getBio() {
-            return bio;
-        }
-
-        /**
-         * @param bio the bio to set
-         */
-        public void setBio(String bio) {
-            this.bio = bio;
-        }
-
-        /**
-         * @return the image
-         */
-        public byte[] getImage() {
-            return image;
-        }
-
-        /**
-         * @param image the image to set
-         */
-        public void setImage(byte[] image) {
-            this.image = image;
-        }
-
-        /**
-         * @return the userProfileID
-         */
-        public long getUserProfileID() {
-            return userProfileID;
-        }
-
-        /**
-         * @param userProfileID the userProfileID to set
-         */
-        public void setUserProfileID(long userProfileID) {
-            this.userProfileID = userProfileID;
-        }
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getOuterType().hashCode();
-			result = prime * result + ((bio == null) ? 0 : bio.hashCode());
-			result = prime * result + Arrays.hashCode(image);
-			result = prime * result + (int) (userProfileID ^ (userProfileID >>> 32));
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Profile other = (Profile) obj;
-			if (!getOuterType().equals(other.getOuterType()))
-				return false;
-			if (bio == null) {
-				if (other.bio != null)
-					return false;
-			} else if (!bio.equals(other.bio))
-				return false;
-			if (!Arrays.equals(image, other.image))
-				return false;
-			if (userProfileID != other.userProfileID)
-				return false;
-			return true;
-		}
-
-		private Users getOuterType() {
-			return Users.this;
-		}
-        
-    }
 }

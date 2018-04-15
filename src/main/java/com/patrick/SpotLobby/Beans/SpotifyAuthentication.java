@@ -11,7 +11,8 @@ public class SpotifyAuthentication {
 
     @Id
     @Column(nullable=false, name="SPOTIFY_AUTH_ID")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SPOTIFYAUTHENTICATIONID_SEQUENCE")
+	@SequenceGenerator(name="SPOTIFYAUTHENTICATIONID_SEQUENCE", sequenceName="SPOTIFYAUTHENTICATIONID_SEQUENCE")
     private long spotifyAuthenticaionID;
 
     @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)

@@ -1,7 +1,7 @@
 # SpotLobby
 
 TechStack:
-FrontEnd-HTML,AngularJS, Bootstrap
+FrontEnd-HTML,AngularJS, Bootstrap \n
 ServerSide-Java (SpringBoot)
 ORM-Hibernate
 BackEnd-Postgres

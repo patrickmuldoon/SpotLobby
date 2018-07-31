@@ -12,9 +12,12 @@ import com.patrick.SpotLobby.Beans.Followers;
 @Repository
 public interface FollowersDAO extends CrudRepository<Followers, Long> {
 
-	@Query("from Followers where followed_id =:userID")
+	@Query("from Followers where following_id =:userID")
 	List<Followers> findAllFollowersByUserID(@Param("userID")long userID);
 	
-	@Query("from Followers where followed_id =:userID and follower_id =:followerID")
+	@Query("from Followers where follower_id = :userID")
+	List<Followers> findAllFollowingByUserID(@Param("userID")long userID);
+	
+	@Query("from Followers where following_id =:userID and follower_id =:followerID")
 	Followers findFollowerByUserIDAndFollowerID(@Param("userID") long userID, @Param("followerID")long followerID);
 }

@@ -58,10 +58,5 @@ public class ProfileDAOTest {
 		assertEquals(usersService.getByUsername("eliIsABum").getUserProfile().getBio(), BASIC_BIO);
 	}
 	
-	@Test
-	public void testFindProfileByUserID() {
-		Users testUser = usersService.getById((long)1);
-		Profile testProfile = profileDAO.findProfileByUserId(testUser.getUserID());
-		assertEquals(PROFILE_BIO, testProfile.getBio());
-	}
+	
 }

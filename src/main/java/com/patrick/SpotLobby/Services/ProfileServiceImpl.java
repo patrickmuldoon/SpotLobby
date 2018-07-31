@@ -34,8 +34,7 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public Profile findProfileByUserId(long userid) {
-		//return profileDAO.findProfileByUserId(userid);
-		return null;
+		return profileDAO.findProfileByUserId(userid);
 	}
 
 }

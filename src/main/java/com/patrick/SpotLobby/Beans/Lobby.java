@@ -25,7 +25,7 @@ public class Lobby {
 //	@OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
 //	private Users lobbyHost;
 
-    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
+    @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private Settings lobbySettings;
 
     @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)

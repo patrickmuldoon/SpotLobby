@@ -2,6 +2,8 @@ package com.patrick.SpotLobby.Beans;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Settings {
 
@@ -26,6 +28,10 @@ public class Settings {
 
     @Column(nullable=false, name="IS_VOTE_SYSTEM_ON")
     private boolean isVoteSystemOn;
+    
+    @JsonIgnore
+    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    private Lobby lobby;
 
     public Settings(long settingsId, long queueLength, String genreRestriction, boolean isLobbyOpen,
                     PartyPrivacy partyPrivacy, boolean isVoteSystemOn) {

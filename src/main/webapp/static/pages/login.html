@@ -1,0 +1,23 @@
+<html>
+<head>
+	<link rel="stylesheet" href="/css/login.css" type="text/css"/>
+</head>
+<div id="login">
+	<h2>Login</h2>
+	<div id="logininfo">
+	<form role="form" ng-submit="Login()">
+		<div class="form-group">
+			Username: <input type="text" name="username" ng-model="users.userName" required 
+				pattern="[a-zA-Z0-9_.!?]{4,20}"/><br />
+		</div>
+		<div class="form-group">
+			Password: <input type="password" name="password" ng-model="users.password" required 
+				pattern="[a-zA-Z0-9_.!?]{4,20}"/><br />
+			<div id="loginbutton">
+				<input class="btn btn-primary" type="submit" value="Login" /><br />
+			</div>
+		</div>
+	</form>
+	</div>
+</div>
+</html>

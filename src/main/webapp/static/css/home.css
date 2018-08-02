@@ -1,0 +1,26 @@
+#title{
+	padding-top: 75px;
+	text-align: center;
+	color: green;
+}
+
+p {
+	color: red;
+	text-align:center;
+}
+
+#signup{
+	text-align:center;
+}
+
+.btn {
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  background-color: #107DBF;
+  cursor: pointer;
+}
+
+.btn a{
+	color:#000000;
+}

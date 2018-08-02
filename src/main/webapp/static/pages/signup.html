@@ -1,0 +1,37 @@
+<div class="container" style="padding:10px;">
+	<div class="container-fluid" style="background-color: #ed53e5; margin-center: 10px; margin-bottom: 10px;">
+		<h2 style="padding-left: 20px;">Sign Up Today</h2>
+			<form ng-submit="createNewUser()" >
+			<div class="container-fluid">
+				<div class="form-group">
+					<label>Username:</label>
+					<input type="text" class="form-control" ng-model="users.userName" required
+						minlength="4" maxlength="20" pattern="[a-zA-Z0-9_.!?]{4,20}">
+				</div>
+				<div class="form-group">
+					<label>First Name:</label>
+					<input type="text" class="form-control" ng-model="users.firstName" required
+					pattern="[a-zA-Z0-9']{1,25}">
+				</div>
+				<div class="form-group">
+					<label>Last Name:</label>
+					<input type="text" class="form-control" ng-model="users.lastName" required
+					pattern="[a-zA-Z0-9']{1,25}">
+				</div>
+				<div class="form-group">
+					<label>Email:</label>
+					<input type="text" class="form-control" ng-model="users.email" required
+						type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+				</div>
+				<div class="form-group">
+					<label>Password:</label>
+					<input type="password" class="form-control" ng-model="users.password" required
+						minlength="8" maxlength="20" pattern="[a-zA-Z0-9_.!?]{8,20}">
+				</div>
+				<div class="form-group">
+					<input class="btn btn-lg btn-success" style="color: black" type="submit" value="Submit!">
+				</div>
+			</div>
+			</form>
+	</div>
+</div>

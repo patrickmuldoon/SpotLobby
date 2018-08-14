@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.patrick.SpotLobby.Beans.Users;
+import com.patrick.SpotLobby.Services.InputValidationService;
 import com.patrick.SpotLobby.Services.UsersService;
 
 @Controller
@@ -23,20 +24,39 @@ public class UsersController {
 
 	@Autowired
 	private UsersService usersService;
+	
+	@Autowired
+	private InputValidationService inputValidationService;
 
 	public void setUsersService(UsersService usersService) {
 		this.usersService = usersService;
 	}
+	
+	public void setInputValidationService(InputValidationService inputValidationService) {
+		this.inputValidationService = inputValidationService;
+	}
 
 	//must implement a validation service still for creating users
-	@RequestMapping(value="/users", method=RequestMethod.POST,
+	@RequestMapping(value="/users/createNewUser", method=RequestMethod.POST,
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	@Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public ResponseEntity<Users> createUser(@Valid @RequestBody Users user){
-		usersService.saveOrUpdate(user);
-		return new ResponseEntity<Users>(HttpStatus.CREATED);
+		System.out.println(user.getUsername() + ""+ user.getFirstName());
+		Users validUser = inputValidationService.validateInput(user);
+		if(inputValidationService.isSignupInputValidated()) {
+			usersService.saveOrUpdate(user);
+			return new ResponseEntity<Users>(validUser, HttpStatus.CREATED);
+		}else
+			return new ResponseEntity<Users>(validUser, HttpStatus.BAD_REQUEST);
 	}
 	
-	
+	@RequestMapping(value="/users/findById/{userId}", method=RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	@Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public ResponseEntity<Users> findUserById(@PathVariable int userId){
+		//logger.info("Finding User by Id number : " + userId);
+		Users user = usersService.getById((long)userId);
+		return new ResponseEntity<Users>(user, HttpStatus.OK);
+	}
 }

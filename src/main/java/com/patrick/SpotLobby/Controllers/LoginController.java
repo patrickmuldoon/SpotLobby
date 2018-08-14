@@ -39,4 +39,14 @@ public class LoginController {
 		loginService.logout(session);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/isLoggedIn", method=RequestMethod.GET)
+	public ResponseEntity<Users> isLoggedIn(HttpServletRequest req){
+		HttpSession session = req.getSession();
+		if(loginService.isLoggedIn()){
+			return new ResponseEntity<Users>((Users)session.getAttribute("loggedInUser"), HttpStatus.OK);
+		}else{
+			return new ResponseEntity<Users>(new Users(), HttpStatus.UNAUTHORIZED);
+		}
+	}
 }

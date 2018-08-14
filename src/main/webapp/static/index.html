@@ -16,6 +16,9 @@
 	src="https://code.angularjs.org/1.6.1/angular-route.js"></script>
 <script type="text/javascript" src="route.js"></script>
 <script type="text/javascript" src="controllers/home.js"></script>
+<script type="text/javascript" src="controllers/users.js"></script>
+<script type="text/javascript" src="controllers/login.js"></script>
+<script type="text/javascript" src="controllers/profile.js"></script>
 </head>
 
 <body ng-app="SpotLobby">
@@ -37,6 +40,7 @@
 					<ul class="nav navbar-nav" style="float: right;">
 						<li ng-if="!authenticated"><a href="#signup">Signup</a></li>
 						<li ng-if="!authenticated"><a href="#login">Log In</a></li>
+						<li><a href="#profile">Profile</a></li>
 						<li ng-click="logout()" ng-if="authenticated"><a href="#logout">Logout</a>
 						<li ng-if="authenticated"><a href="#profile">Profile</a></li>
 					</ul>

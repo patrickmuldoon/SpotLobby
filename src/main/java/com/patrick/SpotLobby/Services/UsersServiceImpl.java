@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.patrick.SpotLobby.Beans.Users;
 import com.patrick.SpotLobby.DAO.UsersDAO;
+import com.patrick.SpotLobby.helpers.Password;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -42,6 +43,7 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public Users saveOrUpdate(Users user) {
+		user.setPassword(Password.hashPassword(user.getPassword()));
 		usersDAO.save(user);
 		return user;
 	}

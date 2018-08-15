@@ -7,6 +7,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 //map the database next, then try server again
 @Entity
 public class Users implements Serializable{
@@ -49,12 +50,12 @@ public class Users implements Serializable{
     @OneToOne(cascade=CascadeType.PERSIST, targetEntity=Users.class, fetch=FetchType.EAGER)
     private SpotifyAuthentication spotifyAuthentication;
     
-    @JsonIgnore
-    @OneToMany(mappedBy="follower", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JsonManagedReference
+    @OneToMany(mappedBy="follower", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Followers> followers;
     
-    @JsonIgnore
-    @OneToMany(mappedBy="following", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JsonManagedReference
+    @OneToMany(mappedBy="following", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Followers> followingUsers;
     
@@ -103,6 +104,21 @@ public class Users implements Serializable{
 		this.followers = followers;
 	}
 
+	public Users(long userID, String firstName, String lastName, String username, List<Followers> followers,
+			List<Followers> followingUsers) {
+		super();
+		this.userID = userID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.followers = followers;
+		this.followingUsers = followingUsers;
+	}
+
+	public Users(String username) {
+		this.username = username;
+	}
+	
 	public Users() {}
 
 	public long getUserID() {

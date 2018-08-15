@@ -21,6 +21,10 @@ angular.module("SpotLobby")
 			templateUrl: "pages/login.html",
 			controller: "loginCtrl"
 		})
+		.when("/searchUsers", {
+			templateUrl: "pages/searchUsers.html",
+			controller: "searchUsersCtrl"
+		})
 		.when("/profile", {
 			templateUrl: "pages/profile.html", 
 			controller: "profileCtrl"

@@ -19,11 +19,13 @@
 <script type="text/javascript" src="controllers/users.js"></script>
 <script type="text/javascript" src="controllers/login.js"></script>
 <script type="text/javascript" src="controllers/profile.js"></script>
+<script type="text/javascript" src="controllers/searchUsers.js"></script>
 </head>
 
 <body ng-app="SpotLobby">
 <div>
-		<nav class="navbar navbar-inverse navbar-default" style="color:#ed53e;">
+		<div class="navbar navbar-inverse navbar-default" style="color:#ed53e;">
+			<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<a href="#" class="navbar-brand" style="font-size: 3em;">SpotLobby<span
@@ -46,7 +48,8 @@
 					</ul>
 				</div>
 			</div>
-		</nav>
+			</nav>
+		</div>
 	</div>
   <div class="container" id="container">
 	<div style="overflow-y: auto; max-height: 500px; width: 100%;">
@@ -57,5 +60,17 @@
 		</div>
 	</div>      
   </div>
+  <div class="navbar navbar-default navbar-fixed-bottom" id="this">
+		<nav class="navbar navbar-inverse navbar-fixed-bottom">
+			<div class="container-fluid">
+				<div class="navbar-footer">
+					<ul class="nav navbar-nav" style="float: right;">
+						<li><a href="#about">About</a></li>
+						<li><a href="#contact">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
 </body>
 </html>

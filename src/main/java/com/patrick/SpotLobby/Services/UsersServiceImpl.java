@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.patrick.SpotLobby.Beans.Followers;
+import com.patrick.SpotLobby.Beans.UserRoles;
 import com.patrick.SpotLobby.Beans.Users;
 import com.patrick.SpotLobby.DAO.UsersDAO;
 import com.patrick.SpotLobby.helpers.Password;
@@ -28,9 +30,21 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public List<Users> listAll() {
-		List<Users> users = new ArrayList<>();
+		List<Users> users = new ArrayList<Users>();
 		usersDAO.findAll().forEach(users::add);
-		return users;
+		List<Users> result = new ArrayList<Users>();
+		int i = 0;
+		for(Users list : users) {
+			result.add(new Users(list.getUserID(), list.getFirstName(), list.getLastName(),
+					list.getUsername(), list.getFollowers(), list.getFollowingUsers()));
+			List<Followers> followers = usersDAO.findAllFollowersByUserID(list.getUserID());
+			result.get(i).setFollowers(followers);
+			List<Followers> following = usersDAO.findAllFollowingByUserID(list.getUserID());
+			result.get(i).setFollowingUsers(following);
+			System.out.println(result.get(i).getFollowers() + " and " + result.get(i).getFollowingUsers());
+			i++;
+		}
+		return result;
 	}
 
 	
@@ -44,6 +58,7 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public Users saveOrUpdate(Users user) {
 		user.setPassword(Password.hashPassword(user.getPassword()));
+		user.setUserRoles(UserRoles.ROLE_USER);
 		usersDAO.save(user);
 		return user;
 	}

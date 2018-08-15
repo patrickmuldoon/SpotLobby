@@ -1,5 +1,8 @@
 package com.patrick.SpotLobby.Controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -58,5 +61,14 @@ public class UsersController {
 		//logger.info("Finding User by Id number : " + userId);
 		Users user = usersService.getById((long)userId);
 		return new ResponseEntity<Users>(user, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/users/findAll", method=RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	@Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public ResponseEntity<List<Users>> findAllUsers(){
+		List<Users> users = new ArrayList<Users>();
+		users = usersService.listAll();
+		return new ResponseEntity<List<Users>>(users, HttpStatus.OK);
 	}
 }

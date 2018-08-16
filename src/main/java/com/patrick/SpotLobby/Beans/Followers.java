@@ -10,18 +10,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames= {"Follower_ID", "Following_ID"}))
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Followers implements Serializable{
 	
+	/**
+	 * 
+	 */
+
 	/**
 	 * 
 	 */
@@ -36,12 +50,10 @@ public class Followers implements Serializable{
 	@SequenceGenerator(name="ID_SEQUENCE", sequenceName="ID_SEQUENCE")
     private long id;
 	
-	@JsonBackReference
 	@ManyToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name="Follower_ID", nullable=false)
 	private Users follower;
 	
-	@JsonBackReference
 	@ManyToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinColumn(name="Following_ID", nullable=false)
 	private Users following;
@@ -83,10 +95,6 @@ public class Followers implements Serializable{
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	@Override

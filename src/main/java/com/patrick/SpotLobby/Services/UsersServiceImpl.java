@@ -1,10 +1,8 @@
 package com.patrick.SpotLobby.Services;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,12 +34,33 @@ public class UsersServiceImpl implements UsersService {
 		int i = 0;
 		for(Users list : users) {
 			result.add(new Users(list.getUserID(), list.getFirstName(), list.getLastName(),
-					list.getUsername(), list.getFollowers(), list.getFollowingUsers()));
-			List<Followers> followers = usersDAO.findAllFollowersByUserID(list.getUserID());
+					list.getUsername(), Collections.emptyList(), Collections.emptyList()));
+			//get all followers put them in User Objects and add them to the users followers list
+			List<Followers> temp = usersDAO.findAllFollowersByUserID(list.getUserID());
+			List<Followers> followers = new ArrayList<Followers>();
+			for(Followers fol : temp) {
+				Followers follower = new Followers();
+				Users user = new Users();
+				user.setUsername(fol.getFollowing().getUsername());
+				user.setFirstName(fol.getFollowing().getFirstName());
+				user.setLastName(fol.getFollowing().getLastName());
+				follower.setFollowers(user);
+				followers.add(follower);
+			}
+			//get all following put them in User Objects and add the to the following lists
+			List<Followers> temp2 = usersDAO.findAllFollowingByUserID(list.getUserID());
+			List<Followers> following = new ArrayList<Followers>();
+			for(Followers fol : temp2) {
+				Followers followed = new Followers();
+				Users user = new Users();
+				user.setUsername(fol.getFollowers().getUsername());
+				user.setFirstName(fol.getFollowers().getFirstName());
+				user.setLastName(fol.getFollowers().getLastName());
+				followed.setFollowing(user);
+				following.add(followed);
+			}
 			result.get(i).setFollowers(followers);
-			List<Followers> following = usersDAO.findAllFollowingByUserID(list.getUserID());
 			result.get(i).setFollowingUsers(following);
-			System.out.println(result.get(i).getFollowers() + " and " + result.get(i).getFollowingUsers());
 			i++;
 		}
 		return result;

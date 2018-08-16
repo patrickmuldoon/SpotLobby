@@ -4,12 +4,20 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.*;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 //map the database next, then try server again
 @Entity
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "userID")
 public class Users implements Serializable{
 
     /**
@@ -50,22 +58,20 @@ public class Users implements Serializable{
     @OneToOne(cascade=CascadeType.PERSIST, targetEntity=Users.class, fetch=FetchType.EAGER)
     private SpotifyAuthentication spotifyAuthentication;
     
-    @JsonManagedReference
-    @OneToMany(mappedBy="follower", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+  
+    @OneToMany(mappedBy="follower", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Followers> followers;
     
-    @JsonManagedReference
-    @OneToMany(mappedBy="following", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(mappedBy="following", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Followers> followingUsers;
+    
     
     @Enumerated(EnumType.STRING)
     @Column(name="USER_ROLE_TYPE")
     private UserRoles userRoles;
     
-//    @JsonIgnore
-//    @OneToMany(mappedBy="followingUser", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-//    private Set<Following> following;
+
     
 	public Users(String firstName, String lastName, String userName, String password, String email) {
     		this.firstName = firstName;

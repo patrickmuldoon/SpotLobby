@@ -7,8 +7,6 @@ angular.module("SpotLobby")
 				if(response.status === 200){
 					console.log(response.data);
 					$scope.users = response.data;
-					$scope.users.follower = response.data.follower;
-					$scope.users.following = response.data.following;
 				}
 			}, function error(response){
 				if(response.status === 400){

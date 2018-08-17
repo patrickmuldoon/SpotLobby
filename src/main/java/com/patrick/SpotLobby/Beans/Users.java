@@ -66,6 +66,8 @@ public class Users implements Serializable{
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Followers> followingUsers;
     
+    @OneToMany(mappedBy="messageOwner", cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    private List<Posts> userPosts;
     
     @Enumerated(EnumType.STRING)
     @Column(name="USER_ROLE_TYPE")

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.patrick.SpotLobby.Beans.Followers;
+import com.patrick.SpotLobby.Beans.Profile;
 import com.patrick.SpotLobby.Beans.UserRoles;
 import com.patrick.SpotLobby.Beans.Users;
 import com.patrick.SpotLobby.DAO.UsersDAO;

@@ -24,7 +24,7 @@ public class Posts {
 	@SequenceGenerator(name="POSTID_SEQUENCE", sequenceName="POSTID_SEQUENCE")
     private long id;
 	
-	@Column(name="MESSAGE")
+	@Column(name="MESSAGE", nullable=false)
 	private String message;
 	
 	@JsonIgnore
@@ -36,7 +36,7 @@ public class Posts {
 	
 	private long downvotes;
 	
-	@Column(name="TIME_MESSAGE_CREATED")
+	@Column(name="TIME_MESSAGE_CREATED", nullable=false)
 	private Timestamp timeMessageCreated;
 	
 	@Column(name="TIME_MESSAGE_LAST_EDITED")

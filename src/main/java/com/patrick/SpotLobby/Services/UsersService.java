@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import com.patrick.SpotLobby.Beans.Profile;
 import com.patrick.SpotLobby.Beans.Users;
 
 @Service

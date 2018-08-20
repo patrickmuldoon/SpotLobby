@@ -1,5 +1,7 @@
 package com.patrick.SpotLobby.Services;
 
+import java.util.Collections;
+
 import javax.servlet.http.HttpSession;
 
 import org.jsoup.Jsoup;
@@ -33,16 +35,17 @@ private UsersService userService;
 				if (Password.checkPassword(cleanPassword, validUser.getPassword())) {
 					isLoggedIn = true;
 					Users sessionUser = new Users(validUser.getUserID(), validUser.getFirstName(),
-							validUser.getLastName(), validUser.getUsername(), validUser.getFollowers());
+							validUser.getLastName(), validUser.getUsername());
+					sessionUser.setEmail(validUser.getEmail());
 					session.setAttribute("loggedInUser", sessionUser);
 					this.session = session;
 					return sessionUser;
-				}
-			}
-		} else {
+				}else
+					return new Users();
+			}else
+				return new Users();
+		} else 
 			return new Users();
-		}
-		return new Users();
 	}
 	
 	public void logout(HttpSession session){

@@ -13,9 +13,11 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Table(uniqueConstraints=@UniqueConstraint(columnNames= {"userid"}))
 @Entity
 public class Profile{
 //change all sequences can't just change one

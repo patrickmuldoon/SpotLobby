@@ -1,3 +1,14 @@
 <div>
 	<h1>Welcome to the Users Page</h1>
+	<div class="table" style="overflow-y: auto; max-height: 300px; padding-top: 0px; margin-top: 0px; boarder-top: 0px; max-width: 90%">
+	<table class="table table-bordered">
+			<tbody>
+				<tr ng-repeat="user in users | filter:in | filter:select">
+					<td style="width: 30%;">{{user.username}}</td>
+					<td style="width: 30%;">{{user.firstName}} {{user.lastName}}</td>
+					<td style="width: 20%;">{{user.followers.length}}</td>
+					<td style="width: 20%;">{{user.followingUsers.length}}</td>
+				</tr>
+			</tbody>
+	</table>
 </div>

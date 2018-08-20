@@ -71,4 +71,5 @@ public class UsersController {
 		users = usersService.listAll();
 		return new ResponseEntity<List<Users>>(users, HttpStatus.OK);
 	}
+	
 }

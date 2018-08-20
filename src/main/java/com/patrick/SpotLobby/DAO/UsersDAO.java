@@ -24,9 +24,5 @@ public interface UsersDAO extends CrudRepository<Users, Long> {
 	@Transactional
 	@Query("from Followers where following_ID = :userID")
 	List<Followers> findAllFollowingByUserID(@Param("userID")long userid);
-	
-//	@Query("Select from FRIENDS where userid = ?1")
-//	Set<Users> findAllFriends(long id);
-	
-//	void deleteByEmail(String email);
+
 }

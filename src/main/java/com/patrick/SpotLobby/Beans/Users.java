@@ -59,14 +59,15 @@ public class Users implements Serializable{
     private SpotifyAuthentication spotifyAuthentication;
     
   
-    @OneToMany(mappedBy="follower", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="follower", cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Followers> followers;
     
-    @OneToMany(mappedBy="following", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="following", cascade=CascadeType.PERSIST, fetch=FetchType.LAZY	)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Followers> followingUsers;
     
-    @OneToMany(mappedBy="messageOwner", cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="messageOwner", cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
     private List<Posts> userPosts;
     
     @Enumerated(EnumType.STRING)
@@ -128,6 +129,14 @@ public class Users implements Serializable{
 	}
 	
 	public Users() {}
+
+	public Users(long userID, String firstName, String lastName, String username) {
+		super();
+		this.userID = userID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+	}
 
 	public long getUserID() {
 		return userID;

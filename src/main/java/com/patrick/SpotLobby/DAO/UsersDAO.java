@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface UsersDAO extends CrudRepository<Users, Long> {
 	
-	Users getByEmail(String email);
+	Users findByEmail(String email);
 	
 	Users findByUsername(String username);
 	

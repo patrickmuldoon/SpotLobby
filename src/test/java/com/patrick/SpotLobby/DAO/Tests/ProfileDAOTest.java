@@ -13,6 +13,7 @@ import com.patrick.SpotLobby.Beans.Profile;
 import com.patrick.SpotLobby.Beans.Users;
 import com.patrick.SpotLobby.DAO.ProfileDAO;
 import com.patrick.SpotLobby.DAO.UsersDAO;
+import com.patrick.SpotLobby.Services.ProfileService;
 import com.patrick.SpotLobby.Services.UsersService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -20,13 +21,16 @@ import com.patrick.SpotLobby.Services.UsersService;
 public class ProfileDAOTest {
 
 	private final static String PROFILE_BIO = "I am a fullstack web developer, coding mostly in Java."
-			+ " I do enjoy a wide variety of music including rock, 80's and EDM. Follow me and share your "
+			+ " I do enjoy a wide variety of music including rock, 80s and EDM. Follow me and share your "
 			+ " musical tastes with me :)";
 	
 	private final static String BASIC_BIO = "I am a human being!";
 	
 	@Autowired
 	private ProfileDAO profileDAO;
+	
+	@Autowired
+	private ProfileService profileService;
 	
 	@Autowired
 	private UsersService usersService;
@@ -44,10 +48,10 @@ public class ProfileDAOTest {
 	@Test 
 	public void testFindingUserProfile() {
 		Users testUser = usersService.getById((long)1);
-		assertEquals(testUser.getUserProfile().getBio(), PROFILE_BIO);
+		assertEquals(testUser.getUserProfile().getBio(), BASIC_BIO);
 	}
 	
-	//works
+	//works\
 	@Ignore
 	@Test
 	public void testCreateNewUserProfileOnNewUser() {
@@ -58,5 +62,12 @@ public class ProfileDAOTest {
 		assertEquals(usersService.getByUsername("eliIsABum").getUserProfile().getBio(), BASIC_BIO);
 	}
 	
-	
+	@Test
+	public void findUserProfileByUserIDTest() {
+		Profile userProf = new Profile();
+		userProf = profileService.findProfileByUserId((long)102);
+		assertEquals(3, userProf.getId());
+		assertEquals("I like to play music" ,userProf.getBio());
+	}
+
 }

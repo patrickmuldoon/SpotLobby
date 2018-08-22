@@ -29,7 +29,7 @@ public class Profile{
     private long id;
     
     @JsonIgnore
-    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
     private Users userid;
     
     private String bio;
@@ -53,6 +53,12 @@ public class Profile{
 	public Profile(Users userid, String bio) {
 		super();
 		this.userid = userid;
+		this.bio = bio;
+	}
+	
+	public Profile(long id, String bio) {
+		super();
+		this.id = id;
 		this.bio = bio;
 	}
 

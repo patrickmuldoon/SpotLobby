@@ -1,5 +1,6 @@
 package com.patrick.SpotLobby.Services;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +11,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.patrick.SpotLobby.Beans.Profile;
 import com.patrick.SpotLobby.DAO.ProfileDAO;
+import com.patrick.SpotLobby.DAO.UserProfileDAO;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
 	
 	private ProfileDAO profileDAO;
+	
+	private UserProfileDAO userProfileDAO;
 
 	@Autowired
-	public ProfileServiceImpl(ProfileDAO profileDAO) {
+	public ProfileServiceImpl(ProfileDAO profileDAO, UserProfileDAO userProfileDAO) {
 		this.profileDAO = profileDAO;
+		this.userProfileDAO = userProfileDAO;
 	}
 
 	@Override
@@ -47,7 +52,8 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public Profile findProfileByUserId(long userid) {
 		Profile userProf = new Profile();
-		Profile dbProf = profileDAO.findProfileByUserId(userid);
+		Profile dbProf = new Profile();
+		dbProf = userProfileDAO.findByuserid(userid);
 		if(dbProf != null) {
 			userProf.setId(dbProf.getId());
 			userProf.setBio(dbProf.getBio());

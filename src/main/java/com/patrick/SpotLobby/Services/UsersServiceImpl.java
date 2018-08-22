@@ -85,7 +85,7 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public Users getByEmail(String email) {
-		return usersDAO.getByEmail(email);
+		return usersDAO.findByEmail(email);
 	}
 
 	@Override

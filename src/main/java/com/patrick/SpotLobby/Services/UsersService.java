@@ -21,6 +21,8 @@ public interface UsersService {
 	
 	Users saveOrUpdate(Users user);
 	
+	void createUserProfile(Users user);
+	
 	void delete(long id);
 	
 //	void delete(String email);

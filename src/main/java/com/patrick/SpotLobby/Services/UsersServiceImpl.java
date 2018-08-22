@@ -14,6 +14,7 @@ import com.patrick.SpotLobby.Beans.Followers;
 import com.patrick.SpotLobby.Beans.Profile;
 import com.patrick.SpotLobby.Beans.UserRoles;
 import com.patrick.SpotLobby.Beans.Users;
+import com.patrick.SpotLobby.DAO.ProfileDAO;
 import com.patrick.SpotLobby.DAO.UsersDAO;
 import com.patrick.SpotLobby.helpers.Password;
 
@@ -22,9 +23,12 @@ public class UsersServiceImpl implements UsersService {
 
 	private UsersDAO usersDAO;
 	
+	private ProfileDAO profileDAO;
+	
 	@Autowired
-	public UsersServiceImpl(UsersDAO usersDAO) {
+	public UsersServiceImpl(UsersDAO usersDAO, ProfileDAO profileDAO) {
 		this.usersDAO = usersDAO;
+		this.profileDAO = profileDAO;
 	}
 
 	@Override
@@ -99,6 +103,14 @@ public class UsersServiceImpl implements UsersService {
 	rollbackFor=Exception.class)
 	public Users getByUsername(String username) {
 		return usersDAO.findByUsername(username);
+	}
+
+	@Override
+	public void createUserProfile(Users user) {
+		Profile userProf = new Profile();
+		userProf.setUserid(user);
+		user.setUserProfile(userProf);
+		profileDAO.save(userProf);
 	}
 
 

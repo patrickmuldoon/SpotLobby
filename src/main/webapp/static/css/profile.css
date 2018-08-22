@@ -1,0 +1,16 @@
+.media {
+	position: relative;
+	height: 200px;
+	width: 200;
+}
+
+.media .glyphicon {
+	position: absolute;
+	top: 20px;
+	left: 40px;
+}
+
+a {
+	position: relative;
+	z-index: -1;
+}

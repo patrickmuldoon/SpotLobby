@@ -1,7 +1,13 @@
 package com.patrick.SpotLobby.Services;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.swing.ImageIcon;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,9 +63,21 @@ public class ProfileServiceImpl implements ProfileService {
 		if(dbProf != null) {
 			userProf.setId(dbProf.getId());
 			userProf.setBio(dbProf.getBio());
-			userProf.setImage(dbProf.getImage());
-		}
-		return userProf;
+			if(dbProf.getImage() == null) {
+				File file = new File("src/main/resources/img/defaultProfileImg.jpg");
+				byte[] img;
+				try {
+					img = Files.readAllBytes(file.toPath());
+					userProf.setImage(img);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			else
+				userProf.setImage(dbProf.getImage());
+			return userProf;
+		}else
+			return null;
 	}
 
 }

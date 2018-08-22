@@ -46,10 +46,10 @@ public class Users implements Serializable{
     @Column(name="EMAIL", nullable=false, unique=true)
     private String email;
 
-    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
     private Lobby lobby;
 
-    @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private Profile userProfile;
 
 //    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
@@ -73,8 +73,6 @@ public class Users implements Serializable{
     @Enumerated(EnumType.STRING)
     @Column(name="USER_ROLE_TYPE")
     private UserRoles userRoles;
-    
-
     
 	public Users(String firstName, String lastName, String userName, String password, String email) {
     		this.firstName = firstName;

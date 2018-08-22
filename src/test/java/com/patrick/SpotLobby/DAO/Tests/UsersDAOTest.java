@@ -82,7 +82,7 @@ public class UsersDAOTest extends SpotLobbyTests{
 		user.setEmail("patrick@example.com" );
 		user.setUsername("muldoon20");
 		user.setPassword("password");
-		Users queryUser = usersDAO.getByEmail("patrick@example.com");
+		Users queryUser = usersDAO.findByEmail("patrick@example.com");
 		//assertEquals(user, queryUser);
 		assertEquals(user.getUserID(), queryUser.getUserID());
 		assertEquals(user.getFirstName(), queryUser.getFirstName());
@@ -129,7 +129,7 @@ public class UsersDAOTest extends SpotLobbyTests{
 	public void testDeleteUserById() {
 		Users user = new Users("patrick", "muldoon", "pmuldoon10", "passkey", "pmuldoon@example.com");
 		usersDAO.save(user);
-		Long id = usersDAO.getByEmail(user.getEmail()).getUserID();
+		Long id = usersDAO.findByEmail(user.getEmail()).getUserID();
 		usersDAO.deleteById(id);
 		assertNull(usersDAO.findById(id).orElse(null));
 	}

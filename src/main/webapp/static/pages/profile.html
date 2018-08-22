@@ -1,3 +1,22 @@
+<head>
+	<link rel="stylesheet" href="/css/profile.css" type="text/css"/>
+</head>
 <div>
-	<h1>{{users.firstName}} Profile Page</h1>
+	<h1>Profile</h1>
+	<div>
+		<ul>Username: {{users.username}}</ul>
+		<div class="media" ng-if="hasPhoto" ng-hide="userProfile.image === undefined">
+			<span id="editPic" class="glyphicon glyphicon-pencil"></span>
+            <a id="profilePic" class="pull-left" href="#"> <img class="media-object"
+				data-ng-src="data:image/png;base64,{{userProfile.image}}" />
+			</a>
+        </div>
+		<ul>{{users.firstName}} {{users.lastName}}</ul>
+		<div style="padding-bottom: 5px;">
+			<input type="file" ngf-select ng-model="image"
+				name="file" accept="image/*" ngf-max-size="2MB"><input
+				class="btn btn-lg btn-success" style="color: black; border-bottom: 10px;" type="submit" value="Edit Pic"
+				ng-click="updateUserPicture()">
+		</div>
+	</div>
 </div>

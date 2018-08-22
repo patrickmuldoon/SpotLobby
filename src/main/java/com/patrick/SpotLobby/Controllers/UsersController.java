@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.patrick.SpotLobby.Beans.UserRoles;
 import com.patrick.SpotLobby.Beans.Users;
 import com.patrick.SpotLobby.Services.InputValidationService;
 import com.patrick.SpotLobby.Services.UsersService;
@@ -45,9 +47,10 @@ public class UsersController {
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	@Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public ResponseEntity<Users> createUser(@Valid @RequestBody Users user){
-		System.out.println(user.getUsername() + ""+ user.getFirstName());
 		Users validUser = inputValidationService.validateInput(user);
 		if(inputValidationService.isSignupInputValidated()) {
+			user.setUserRoles(UserRoles.ROLE_USER);
+			usersService.createUserProfile(user);
 			usersService.saveOrUpdate(user);
 			return new ResponseEntity<Users>(validUser, HttpStatus.CREATED);
 		}else

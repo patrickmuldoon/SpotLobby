@@ -1,5 +1,5 @@
 angular.module("SpotLobby")
-	.controller("profileCtrl", function($http, $scope, $location, $window){
+	.controller("profileCtrl", function($http, $scope, $location, $window, $document, Upload){
 		$scope.hasPhoto = false;
 		$http({
     		method: "GET", url: "isLoggedIn"
@@ -30,21 +30,38 @@ angular.module("SpotLobby")
     		}
     	});
 		
-	$scope.updateUserPicture = function (){ 
-		$http({
-		method: "POST", url: "profile/UpdateUserProfileImage", data: $scope.users
-		}).then(function successCallback(response){
-			console.log(response)
-			if(response.status === 201){
-				window.alert("Picture has been added to database and updated");
-				$window.location.reload();
+		$scope.findImage = function(){
+			console.log($scope.image);
+		}
+		
+		$scope.upload = function (file){ 
+			console.log(file);
+			if(file === undefined){
+				window.alert("No changes to your photo have been made");
+			}else{
+				file.upload = Upload.upload({
+					method: "POST",
+					url: "profile/UpdateUserProfileImage", 
+					data: {
+							image : file
+					}
+				}).then(function successCallback(response){
+					console.log(response)
+					if(response.status === 201){
+						window.alert("Picture has been added to database and updated");
+						$window.location.reload();
+					}
+				}, function errorCallback(response){
+					if(response.status === 400){
+						console.log(response);
+						window.alert("unsuccessful changing photo, bad input");
+						$window.location.reload();
+					}
+					else if (response.status === 401){
+						window.alert("must be logged in to edit Profile");
+						$location.path("/login");
+					}
+				});
 			}
-		}, function errorCallback(response){
-			if(response.status === 400){
-				console.log(response);
-				window.alert("unsuccessful changing photo");
-				$window.location.reload();
-			}
-		})
-	}
+		}
 });

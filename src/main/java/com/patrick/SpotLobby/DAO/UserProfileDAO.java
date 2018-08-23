@@ -25,4 +25,5 @@ public class UserProfileDAO {
 				.setParameter("user_id", userid).getSingleResult();
 		return userProf;
 	}
+	
 }

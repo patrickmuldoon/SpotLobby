@@ -1,16 +1,24 @@
 .media {
 	position: relative;
 	height: 200px;
-	width: 200;
+	width: 200px;
 }
 
 .media .glyphicon {
 	position: absolute;
-	top: 20px;
-	left: 40px;
 }
 
 a {
+	position: relative;
+	z-index: -1;
+}
+
+.media .media-ojbect{
+	position: relative;
+	z-index: -1;
+}
+
+#profilePic {
 	position: relative;
 	z-index: -1;
 }

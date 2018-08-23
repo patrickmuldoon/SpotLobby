@@ -30,13 +30,15 @@ private UsersService userService;
 		if (user.getUsername() != null) {
 			String cleanUsername = Jsoup.clean(user.getUsername(), Whitelist.basic());
 			String cleanPassword = Jsoup.clean(user.getPassword(), Whitelist.basic());
-			if (cleanUsername.equals(userService.getByUsername(cleanUsername).getUsername())) {
+			if (userService.getByUsername(cleanUsername) != null &&
+					cleanUsername.equals(userService.getByUsername(cleanUsername).getUsername())) {
 				Users validUser = userService.getByUsername(cleanUsername);
 				if (Password.checkPassword(cleanPassword, validUser.getPassword())) {
 					isLoggedIn = true;
 					Users sessionUser = new Users(validUser.getUserID(), validUser.getFirstName(),
 							validUser.getLastName(), validUser.getUsername());
 					sessionUser.setEmail(validUser.getEmail());
+					sessionUser.setUserRoles(validUser.getUserRoles());
 					session.setAttribute("loggedInUser", sessionUser);
 					this.session = session;
 					return sessionUser;

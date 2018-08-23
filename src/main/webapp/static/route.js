@@ -1,4 +1,4 @@
-var app = angular.module("SpotLobby", ["ngRoute"]);
+var app = angular.module("SpotLobby", ["ngRoute", 'ngFileUpload']);
 
 angular.module("SpotLobby")
 	.config(function($locationProvider, $routeProvider) {

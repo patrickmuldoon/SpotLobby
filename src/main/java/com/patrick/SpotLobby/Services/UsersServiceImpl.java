@@ -113,6 +113,38 @@ public class UsersServiceImpl implements UsersService {
 		profileDAO.save(userProf);
 	}
 
+	@Override
+	public List<Followers> getFollowersByUserID(long userid) {
+		List<Followers> temp = usersDAO.findAllFollowersByUserID(userid);
+		List<Followers> followers = new ArrayList<Followers>();
+		for(Followers fol : temp) {
+			Followers follower = new Followers();
+			Users user = new Users();
+			user.setUsername(fol.getFollowing().getUsername());
+			user.setFirstName(fol.getFollowing().getFirstName());
+			user.setLastName(fol.getFollowing().getLastName());
+			follower.setFollowers(user);
+			followers.add(follower);
+		}
+		return followers;
+	}
+
+	@Override
+	public List<Followers> getFollowingByUserID(long userid) {
+		List<Followers> temp2 = usersDAO.findAllFollowingByUserID(userid);
+		List<Followers> following = new ArrayList<Followers>();
+		for(Followers fol : temp2) {
+			Followers followed = new Followers();
+			Users user = new Users();
+			user.setUsername(fol.getFollowers().getUsername());
+			user.setFirstName(fol.getFollowers().getFirstName());
+			user.setLastName(fol.getFollowers().getLastName());
+			followed.setFollowing(user);
+			following.add(followed);
+		}
+		return following;
+	}
+
 
 //	@Override
 //	public void delete(String email) {

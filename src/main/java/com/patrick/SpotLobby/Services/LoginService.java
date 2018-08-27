@@ -37,6 +37,8 @@ private UsersService userService;
 					isLoggedIn = true;
 					Users sessionUser = new Users(validUser.getUserID(), validUser.getFirstName(),
 							validUser.getLastName(), validUser.getUsername());
+					sessionUser.setFollowers(userService.getFollowersByUserID(sessionUser.getUserID()));
+					sessionUser.setFollowingUsers(userService.getFollowingByUserID(sessionUser.getUserID()));
 					sessionUser.setEmail(validUser.getEmail());
 					sessionUser.setUserRoles(validUser.getUserRoles());
 					session.setAttribute("loggedInUser", sessionUser);

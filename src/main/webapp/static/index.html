@@ -21,45 +21,38 @@
 <script type="text/javascript" src="javascript/ng-file-upload.js"></script>
 <script type="text/javascript" src="controllers/profile.js"></script>
 <script type="text/javascript" src="controllers/searchUsers.js"></script>
+<script type="text/javascript" src="controllers/gatekeeper.js"></script>
+<link rel="stylesheet" href="/css/index.css" type="text/css"/>
 </head>
-
-<body ng-app="SpotLobby">
+<body ng-app="SpotLobby" style="padding-bottom:50px;">
 <div>
 		<div class="navbar navbar-inverse navbar-default" style="color:#ed53e;">
 			<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
-				<div class="navbar-header">
-					<a href="#" class="navbar-brand" style="font-size: 3em;">SpotLobby<span
-						class="inverse" style="color: #35d64a;"></span></a>
+				<div class="navbar-header" style="text-align:center;">
+					<a href="#" class="navbar-brand" style="font-size: 3em;">SpotLobby</a>
 				</div>
-				<div ng-Controller="homeCtrl" class="collapse navbar-collapse"
+				<div ng-Controller="gatekeeperCtrl" class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-9">
-					<ul class="nav navbar-nav">
-						<li><a href="#home">Home</a></li>
-						<li><a href="#calendar">Calendar</a></li>
-						<li ng-if="isAdmin" ><a href="#event">Events</a></li>
-						<li ng-if="isAdmin"><a href="#user">Users</a></li>
+					<!--<ul class="nav navbar-nav">
+						<li><a href="#home"><span class="glyphicon glyphicon-home" style="font-size: 2em;"></span></a></li>
+					</ul>-->
+					<ul class="nav navbar-nav" style="float: left;">
+					<li><a href="#home"><span class="glyphicon glyphicon-home" style="font-size: 1em;"></span></a></li>
 					</ul>
 					<ul class="nav navbar-nav" style="float: right;">
 						<li ng-if="!authenticated"><a href="#signup">Signup</a></li>
 						<li ng-if="!authenticated"><a href="#login">Log In</a></li>
-						<li><a href="#profile">Profile</a></li>
+						<li ng-if="authenticated"><a href="#profile"><span class="glyphicon glyphicon-user" style="font-size: 1em;"></span></a></li>
 						<li ng-click="logout()" ng-if="authenticated"><a href="#logout">Logout</a>
-						<li ng-if="authenticated"><a href="#profile">Profile</a></li>
 					</ul>
 				</div>
 			</div>
 			</nav>
 		</div>
 	</div>
-  <div class="container" id="container">
-	<div style="overflow-y: auto; max-height: 500px; width: 100%;">
-		<div class="container">
-			<div ng-view class="view">
+  <div class="container" id="container" style="overflow-y: scroll; max-height: 500px; width: 100%;" ng-view class="view">
 				<!-- inject a view here: manage.html, create.html -->
-			</div>
-		</div>
-	</div>      
   </div>
   <div class="navbar navbar-default navbar-fixed-bottom" id="this">
 		<nav class="navbar navbar-inverse navbar-fixed-bottom">

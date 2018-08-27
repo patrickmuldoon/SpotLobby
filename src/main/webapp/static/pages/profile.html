@@ -1,3 +1,4 @@
+<html>
 <head>
 	<link rel="stylesheet" href="/css/profile.css" type="text/css"/>
 </head>
@@ -8,8 +9,8 @@
 		<div class="media" ng-if="hasPhoto" ng-hide="userProfile.image === undefined">
 			<label>
 				<!-- need to include error for when file exceeds 2mb limit -->
-				<span id="editPic" class="glyphicon glyphicon-pencil" ng-onClick><input type="file" ngf-select="upload($file)"
-				name="file" accept="image/*" ngf-max-size="2MB" style="display:none;" id="picToUpload">
+				<span id="editPic" class="glyphicon glyphicon-pencil" ng-onClick>
+				<input type="file" ngf-select="upload($file)" name="file" accept="image/*" ngf-max-size="2MB" style="display:none;" id="picToUpload">
 				</span>
 	            <a class="pull-left" href="#"> <img id="profilePic" class="media-object"
 					data-ng-src="data:image/png;base64,{{userProfile.image}}" style="max-height:100%; max-width:100%" />
@@ -78,7 +79,6 @@
 						</div>
 					</div>	
 		</div>
-		<div style="padding-bottom: 5px;">
-		</div>
 	</div>
 </div>
+</html>

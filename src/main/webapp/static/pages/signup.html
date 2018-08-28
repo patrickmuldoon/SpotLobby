@@ -6,7 +6,8 @@
 				<div class="form-group">
 					<label>Username:</label>
 					<input type="text" class="form-control" ng-model="users.username" required
-						minlength="4" maxlength="20" pattern="[a-zA-Z0-9_.!?]{4,20}">
+						minlength="4" maxlength="20" pattern="[a-zA-Z0-9_.!?]{4,20}" ng-keyup="checkUsernameAvailibility()" id="username">
+					<div ng-class="addClass(usernameStatus)">{{usernameStatus}}</div>
 				</div>
 				<div class="form-group">
 					<label>First Name:</label>
@@ -26,7 +27,12 @@
 				<div class="form-group">
 					<label>Password:</label>
 					<input type="password" class="form-control" ng-model="users.password" required
-						minlength="8" maxlength="20" pattern="[a-zA-Z0-9_.!?]{8,20}">
+						minlength="8" maxlength="20" pattern="[a-zA-Z0-9_.!?]{8,20}" id="password">
+				</div>
+				<div class="form-group">
+					<label>Re-Enter Password:</label>
+					<input type="password" class="form-control" required ng-model="confirmPassword"
+					minlength="8" maxlength="20" pattern="[a-zA-Z0-9_.!?]{8,20}" id="confirm_password">
 				</div>
 				<div class="form-group">
 					<input class="btn btn-lg btn-success" style="color: black" type="submit" value="Submit!">

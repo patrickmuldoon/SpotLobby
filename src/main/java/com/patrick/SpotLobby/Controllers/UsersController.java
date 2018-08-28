@@ -75,4 +75,15 @@ public class UsersController {
 		return new ResponseEntity<List<Users>>(users, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/users/CheckUsername", method=RequestMethod.POST,
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	@Transactional(isolation=Isolation.READ_UNCOMMITTED, propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public ResponseEntity<Void> checkUsernameAvailibility(@Valid @RequestBody String username){
+		if(usersService.getByUsername(username) != null) {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}else
+			return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	}
+	
 }

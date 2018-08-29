@@ -36,6 +36,7 @@ angular.module("SpotLobby")
 				
 		var username = document.getElementById("username");
 		
+		//check and see if username is already taken
 		$scope.checkUsernameAvailibility = function(){
 			$scope.uname = username.value;
 			if($scope.uname.length > 0){
@@ -56,9 +57,41 @@ angular.module("SpotLobby")
 		}
 		
 		
-		$scope.addClass = function(usernameStatus){
+		//if username is already taken load error message in dom
+		$scope.addClassUsername = function(usernameStatus){
 			if(usernameStatus == 'Username Unavailable'){
 				return 'response not-exists';
+			}else{
+				return 'hide';
+			}
+		}
+		
+		
+		var email = document.getElementById("email");
+		
+		//check if email is already in database
+		$scope.checkEmailAvailibility = function(){
+			if(email.value.length > 0){
+				console.log(email.value);
+				$http({
+					method: "POST", url: "users/CheckEmail/" + email.value , data: angular.toJson(email.value)
+				}).then(function successCallback(response){
+					if(response.status === 200){
+						$scope.emailStatus = "Email Unavailable";
+					}
+					if(response.status === 202){
+						$scope.emailStatus = 'Email Available'
+					}
+				}, function errorCallback(response){
+					
+				});
+			}
+		}
+		
+		//if email is already taken, load error message in dom
+		$scope.addClassEmail = function(emailStatus){
+			if(emailStatus == 'Email Unavailable'){
+				return 'response not-exists'
 			}else{
 				return 'hide';
 			}

@@ -3,7 +3,6 @@ package com.patrick.SpotLobby.Controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +80,17 @@ public class UsersController {
 	@Transactional(isolation=Isolation.READ_UNCOMMITTED, propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public ResponseEntity<Void> checkUsernameAvailibility(@Valid @RequestBody String username){
 		if(usersService.getByUsername(username) != null) {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}else
+			return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	}
+	
+	@RequestMapping(value="/users/CheckEmail/{email}", method=RequestMethod.POST,
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	@Transactional(isolation=Isolation.READ_UNCOMMITTED, propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public ResponseEntity<Void> checkEmailAvailibility(@PathVariable String email){
+		if(usersService.getByEmail(email) != null) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}else
 			return new ResponseEntity<Void>(HttpStatus.ACCEPTED);

@@ -1,5 +1,8 @@
+<head>
+	<link rel="stylesheet" href="/css/signup.css" type="text/css"/>
+</head>
 <div class="container" style="padding:10px;">
-	<div class="container-fluid" style="background-color: #ed53e5; margin-center: 10px; margin-bottom: 10px;">
+	<div class="container-fluid" style="background-color: #d3d3d3; margin-center: 10px; margin-bottom: 10px;">
 		<h2 style="padding-left: 20px;">Sign Up Today</h2>
 			<form ng-submit="createNewUser()" >
 			<div class="container-fluid">
@@ -7,7 +10,7 @@
 					<label>Username:</label>
 					<input type="text" class="form-control" ng-model="users.username" required
 						minlength="4" maxlength="20" pattern="[a-zA-Z0-9_.!?]{4,20}" ng-keyup="checkUsernameAvailibility()" id="username">
-					<div ng-class="addClass(usernameStatus)">{{usernameStatus}}</div>
+					<div ng-class="addClassUsername(usernameStatus)">{{usernameStatus}}</div>
 				</div>
 				<div class="form-group">
 					<label>First Name:</label>
@@ -22,7 +25,8 @@
 				<div class="form-group">
 					<label>Email:</label>
 					<input type="text" class="form-control" ng-model="users.email" required
-						type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+						type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" ng-keyup="checkEmailAvailibility()" id="email">
+					<div ng-class="addClassEmail(emailStatus)">{{emailStatus}}</div>
 				</div>
 				<div class="form-group">
 					<label>Password:</label>

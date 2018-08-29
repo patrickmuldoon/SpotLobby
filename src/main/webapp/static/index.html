@@ -38,9 +38,9 @@
 						<li><a href="#home"><span class="glyphicon glyphicon-home" style="font-size: 2em;"></span></a></li>
 					</ul>-->
 					<ul class="nav navbar-nav" style="float: left;">
-					<li><a href="#home"><span class="glyphicon glyphicon-home" style="font-size: 1em;"></span></a></li>
+					<li id="homeIcon"><a href="#home"><span class="glyphicon glyphicon-home" style="font-size: 1em;"></span></a></li>
 					</ul>
-					<ul class="nav navbar-nav" style="float: right;">
+					<ul class="nav navbar-nav" id="navbarIcons" style="float: right;">
 						<li ng-if="!authenticated"><a href="#signup">Signup</a></li>
 						<li ng-if="!authenticated"><a href="#login">Log In</a></li>
 						<li ng-if="authenticated"><a href="#profile"><span class="glyphicon glyphicon-user" style="font-size: 1em;"></span></a></li>

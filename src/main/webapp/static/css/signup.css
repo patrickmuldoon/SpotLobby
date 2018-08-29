@@ -1,0 +1,11 @@
+.response{
+ padding: 6px;
+ display: block;
+}
+.hide{
+ display: none;
+}
+.not-exists{
+ color: red;
+ font-size: 1em;
+}

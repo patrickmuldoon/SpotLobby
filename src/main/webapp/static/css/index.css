@@ -7,6 +7,18 @@
     margin: auto;
 }
 
+.navbar-default .navbar-header > a:hover, .navbar-default .navbar-header > a:focus{
+	color: #66CD00;
+}
+
+#homeIcon > a:hover, #homeIcon > a:focus{
+	color: #66CD00;
+}
+
+#navbarIcons > li > a:hover, #navbarIcons > li > a:focus{
+	color: #66CD00;
+}
+
 footer {
     position: fixed;
     height: 75px;

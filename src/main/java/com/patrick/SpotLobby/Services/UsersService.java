@@ -13,6 +13,8 @@ import com.patrick.SpotLobby.Beans.Users;
 public interface UsersService {
 	
 	List<Users> listAll();
+	
+	List<Users> searchForUsers(String username);
 
 	Users getById(long id);
 	

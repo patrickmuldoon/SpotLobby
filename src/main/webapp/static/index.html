@@ -22,6 +22,7 @@
 <script type="text/javascript" src="controllers/profile.js"></script>
 <script type="text/javascript" src="controllers/searchUsers.js"></script>
 <script type="text/javascript" src="controllers/gatekeeper.js"></script>
+<script type="text/javascript" src="controllers/searchBar.js"></script>
 <link rel="stylesheet" href="/css/index.css" type="text/css"/>
 </head>
 <body ng-app="SpotLobby" style="padding-bottom:50px;">
@@ -43,6 +44,16 @@
 					<ul class="nav navbar-nav" id="navbarIcons" style="float: right;">
 						<li ng-if="!authenticated"><a href="#signup">Signup</a></li>
 						<li ng-if="!authenticated"><a href="#login">Log In</a></li>
+						<li ng-if="authenticated" class="search-container">
+							<div class="dropdown">
+								<input ng-Controller="searchBarCtrl" type="text" placeholder="Search Users.." id="searchBar" ng-keyup="searchForUsers()">
+								<ul class="dropdown-content" id="myDropdown" ng-Class="dropdownClass()">
+									<li ng-repeat="user in usersInDB">
+									 	<a>{{user.username}}</a>
+									</li>
+								</ul>
+							</div>
+						</li>
 						<li ng-if="authenticated"><a href="#profile"><span class="glyphicon glyphicon-user" style="font-size: 1em;"></span></a></li>
 						<li ng-click="logout()" ng-if="authenticated"><a href="#logout">Logout</a>
 					</ul>

@@ -96,4 +96,17 @@ public class UsersController {
 			return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 	}
 	
+	//need to create a validation service for this input still
+	@RequestMapping(value="/users/searchForUsers/{searchItem}", method=RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	@Transactional(isolation=Isolation.READ_UNCOMMITTED, propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public ResponseEntity<List<Users>> searchForUsers(@PathVariable String searchItem){
+		System.out.println(searchItem);
+		List<Users> userList = usersService.searchForUsers(searchItem);
+		if(!userList.isEmpty())
+			return new ResponseEntity<List<Users>>(userList, HttpStatus.OK);
+		else
+			return new ResponseEntity<List<Users>>(HttpStatus.ACCEPTED);
+	}
+	
 }

@@ -54,6 +54,9 @@ angular.module("SpotLobby")
 					
 				});
 			}
+			else if($scope.uname.length === 0){
+				$scope.usernameStatus = '';
+			}
 		}
 		
 		
@@ -61,6 +64,8 @@ angular.module("SpotLobby")
 		$scope.addClassUsername = function(usernameStatus){
 			if(usernameStatus == 'Username Unavailable'){
 				return 'response not-exists';
+			}else if(usernameStatus == 'Username Available'){
+				return 'hide';
 			}else{
 				return 'hide';
 			}
@@ -85,6 +90,9 @@ angular.module("SpotLobby")
 				}, function errorCallback(response){
 					
 				});
+			}
+			else if(email.value.length === 0){
+				$scope.emailStatus = '';
 			}
 		}
 		

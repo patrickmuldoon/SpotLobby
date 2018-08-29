@@ -145,6 +145,22 @@ public class UsersServiceImpl implements UsersService {
 		return following;
 	}
 
+	@Override
+	public List<Users> searchForUsers(String username) {
+		List<Users> usersList = usersDAO.searchForUsers(username);
+		if(!usersList.isEmpty()) {
+			List<Users> result = new ArrayList<Users>();
+			for(Users user : usersList) {
+				Users validUser = new Users();
+				validUser.setUsername(user.getUsername());
+				result.add(validUser);
+			}
+			return result;
+		}
+		else
+			return Collections.emptyList();
+	}
+
 
 //	@Override
 //	public void delete(String email) {

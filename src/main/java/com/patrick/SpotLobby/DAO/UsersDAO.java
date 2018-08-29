@@ -25,4 +25,8 @@ public interface UsersDAO extends CrudRepository<Users, Long> {
 	@Query("from Followers where following_ID = :userID")
 	List<Followers> findAllFollowingByUserID(@Param("userID")long userid);
 
+	@Transactional
+	@Query("from Users where username like CONCAT('%',:username,'%')")
+	List<Users> searchForUsers(@Param("username") String username);
+	
 }

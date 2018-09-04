@@ -11,10 +11,10 @@ SpotLobby is a web based application aimed to allow users to sign onto the appli
 
 <br/>
 
-## Environment Variables: 
-**SPOTLOBBY_DB_URL=jdbc:postgresql://localhost:5432/spotlobby** 
-**POSTGRES_DRIVER=org.postgresql.Driver**
-**SPOTLOBBY_DB_USER= "your username"**
-**SPOTLOBBY_DB_PASS= "your password"**
-**SPOTIFY_CLIENT_ID= "your spotify client id given by spotify"**
-**SPOTIFY_CLIENT_SECRET= "your spotify client secret given by spotify"**
+## Environment Variables: <br/>
+**SPOTLOBBY_DB_URL=jdbc:postgresql://localhost:5432/spotlobby** <br/>
+**POSTGRES_DRIVER=org.postgresql.Driver** <br/>
+**SPOTLOBBY_DB_USER= "your username"** <br/>
+**SPOTLOBBY_DB_PASS= "your password"** <br/>
+**SPOTIFY_CLIENT_ID= "your spotify client id given by spotify"** <br/>
+**SPOTIFY_CLIENT_SECRET= "your spotify client secret given by spotify"** <br/>

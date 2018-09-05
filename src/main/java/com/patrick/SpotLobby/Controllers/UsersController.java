@@ -109,4 +109,17 @@ public class UsersController {
 			return new ResponseEntity<List<Users>>(HttpStatus.ACCEPTED);
 	}
 	
+	@RequestMapping(value="/users/findByUsername/{username}", method=RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	@Transactional(isolation=Isolation.READ_UNCOMMITTED, propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public ResponseEntity<Users> findUserByUsername(@PathVariable String username){
+		Users validUser = new Users();
+		Users user = usersService.getByUsername(username);
+		validUser = usersService.setValidUserInformation(user, validUser);
+		if(validUser != null)
+			return new ResponseEntity<Users>(validUser, HttpStatus.OK);
+		else
+			return new ResponseEntity<Users>(HttpStatus.BAD_REQUEST);
+	}
+	
 }

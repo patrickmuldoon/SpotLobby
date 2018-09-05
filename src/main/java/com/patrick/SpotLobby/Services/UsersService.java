@@ -30,6 +30,8 @@ public interface UsersService {
 	
 	List<Followers> getFollowingByUserID(long userid);
 	
+	Users setValidUserInformation(Users user, Users validUser);
+	
 	void delete(long id);
 	
 //	void delete(String email);

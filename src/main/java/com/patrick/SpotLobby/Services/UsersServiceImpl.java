@@ -25,10 +25,13 @@ public class UsersServiceImpl implements UsersService {
 	
 	private ProfileDAO profileDAO;
 	
+	private ProfileService profileSerivce;
+	
 	@Autowired
-	public UsersServiceImpl(UsersDAO usersDAO, ProfileDAO profileDAO) {
+	public UsersServiceImpl(UsersDAO usersDAO, ProfileDAO profileDAO, ProfileService profileService) {
 		this.usersDAO = usersDAO;
 		this.profileDAO = profileDAO;
+		this.profileSerivce = profileService;
 	}
 
 	@Override
@@ -161,7 +164,15 @@ public class UsersServiceImpl implements UsersService {
 			return Collections.emptyList();
 	}
 
-
+	public Users setValidUserInformation(Users user, Users validUser) {
+		validUser.setUsername(user.getUsername());
+		validUser.setFirstName(user.getFirstName());
+		validUser.setLastName(user.getLastName());
+		validUser.setFollowers(getFollowersByUserID(user.getUserID()));
+		validUser.setFollowingUsers(getFollowingByUserID(user.getUserID()));
+		validUser.setUserProfile(profileSerivce.findProfileByUserId((long)user.getUserID()));
+		return validUser;
+	}
 //	@Override
 //	public void delete(String email) {
 //		usersDAO.deleteByEmail(email);

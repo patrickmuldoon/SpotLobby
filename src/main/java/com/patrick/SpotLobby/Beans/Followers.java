@@ -50,11 +50,11 @@ public class Followers implements Serializable{
 	@SequenceGenerator(name="ID_SEQUENCE", sequenceName="ID_SEQUENCE")
     private long id;
 	
-	@ManyToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.DETACH, fetch=FetchType.LAZY)
 	@JoinColumn(name="Follower_ID", nullable=false)
 	private Users follower;
 	
-	@ManyToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.DETACH, fetch=FetchType.LAZY)
 	@JoinColumn(name="Following_ID", nullable=false)
 	private Users following;
 	

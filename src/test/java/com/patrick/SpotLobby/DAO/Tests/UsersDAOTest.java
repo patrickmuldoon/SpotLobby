@@ -25,7 +25,7 @@ import com.patrick.SpotLobby.Beans.Profile;
 import com.patrick.SpotLobby.Beans.Settings;
 import com.patrick.SpotLobby.Beans.UserRoles;
 import com.patrick.SpotLobby.Beans.Users;
-import com.patrick.SpotLobby.DAO.FollowersDAO;
+import com.patrick.SpotLobby.DAO.FollowersCrudDAO;
 import com.patrick.SpotLobby.DAO.ProfileDAO;
 import com.patrick.SpotLobby.DAO.UsersDAO;
 import com.patrick.SpotLobby.Services.UsersService;
@@ -39,7 +39,7 @@ public class UsersDAOTest extends SpotLobbyTests{
 	private UsersDAO usersDAO;
 	
 	@Autowired
-	private FollowersDAO followersDAO;
+	private FollowersCrudDAO followersDAO;
 	
 	@Autowired
 	private UsersService usersService;

@@ -13,11 +13,15 @@ public interface FollowersService {
 
 	Followers getById(long id);
 	
-	Followers getByUseIDAndFollowerID(long userID, long followerID);
+	Followers getByUserIDAndFollowerID(long userID, long followerID);
 	
 	Followers saveOrUpdate(Followers followers);
 	
+	Followers saveOrUpdate(long userID, long followedID);
+	
 	List<Followers> findAllFollowersByUser(long id);
+	
+	Followers unfollowUser(long userID, long followedID);
 	
 	void delete(long id);
 }

@@ -28,7 +28,7 @@ public class Posts {
 	private String message;
 	
 	@JsonIgnore
-	@ManyToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.DETACH, fetch=FetchType.LAZY)
 	@JoinColumn(name="USERID", nullable=false)
 	private Users messageOwner;
 	
@@ -57,6 +57,13 @@ public class Posts {
 		this.downvotes = downvotes;
 		this.timeMessageCreated = timeMessageCreated;
 		this.timeMessageLastEdited = timeMessageLastEdited;
+	}
+
+	public Posts(String message, Users messageOwner, Timestamp timeMessageCreated) {
+		super();
+		this.message = message;
+		this.messageOwner = messageOwner;
+		this.timeMessageCreated = timeMessageCreated;
 	}
 
 	public long getId() {

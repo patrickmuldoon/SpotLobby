@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.patrick.SpotLobby.Beans.Followers;
 import com.patrick.SpotLobby.Beans.Users;
 import com.patrick.SpotLobby.DAO.FollowersCrudDAO;
 import com.patrick.SpotLobby.DAO.UsersDAO;
 
+@Service
 public class FollowersServiceImpl implements FollowersService{
 
 	private FollowersCrudDAO followersCrudDAO;

@@ -46,7 +46,7 @@
 					<ul class="nav navbar-nav" id="navbarIcons" style="float: right;">
 						<li ng-if="!authenticated"><a href="#signup">Signup</a></li>
 						<li ng-if="!authenticated"><a href="#login">Log In</a></li>
-						<li ng-if="!authenticated" class="search-container">
+						<li ng-if="authenticated" class="search-container">
 							<div class="dropdown">
 								<input ng-Controller="searchBarCtrl" type="text" placeholder="Search Users.." id="searchBar" ng-keyup="searchForUsers()">
 								<ul class="dropdown-content" id="myDropdown" ng-Class="dropdownClass()" ng-Controller="searchBarCtrl">

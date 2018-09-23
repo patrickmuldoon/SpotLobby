@@ -44,4 +44,10 @@ public class PostsServiceImpl implements PostsService {
 		postDAO.deleteById(id);
 	}
 
+	@Override
+	public Posts findById(long postID) {
+		Posts post = postDAO.findById(postID).orElse(null);
+		return post;
+	}
+
 }

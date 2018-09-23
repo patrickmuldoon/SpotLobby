@@ -13,6 +13,8 @@ public interface PostsService {
 	
 	List<Posts> findByUserID(long userID);
 	
+	Posts findById(long postID);
+	
 	Posts saveOrUpdate(Posts post);
 	
 	void deleteByID(long id);

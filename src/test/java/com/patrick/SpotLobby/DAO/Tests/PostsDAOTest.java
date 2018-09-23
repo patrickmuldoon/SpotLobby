@@ -49,17 +49,67 @@ public class PostsDAOTest {
 	}
 	
 	@Test 
-	public void findAllPosts() {
+	public void findAllPostsTest() {
 		long numberOfPosts = jdbcTemplate.queryForObject(POSTS_COUNT, Long.class);
 		long numberOfPostsFound = postService.listAll().size();
 		assertEquals(numberOfPosts, numberOfPostsFound);
 	}
 	
 	@Test
-	public void findAllPostsByUserID() {
+	public void findAllPostsByUserIDTest() {
 		List<Posts> posts = postService.findByUserID((long)1);
 		long postCount = jdbcTemplate.queryForObject(USERS_POSTS_COUNT, Long.class);
 		assertEquals(postCount, (long)posts.size());
 	}
 	
+	@Test
+	public void findPostByIDTest() {
+		Posts post = postService.findById((long)1);
+		assertEquals(post.getMessage(), "This is a new post");
+	}
+	
+	@Ignore
+	@Test
+	public void deletePostByIDTest() {
+		long before = jdbcTemplate.queryForObject(POSTS_COUNT, Long.class);
+		postService.deleteByID((long)1);
+		long after = jdbcTemplate.queryForObject(POSTS_COUNT, Long.class);
+		assertEquals(before, ++after);
+	}
+	
+	@Test 
+	public void addUpvoteAndDownvoteToPostTest() {
+		Posts post = postService.findById((long)1);
+		long upvotes = post.getUpvotes();
+		long downvotes = post.getDownvotes();
+		upvotes++;
+		downvotes++;
+		post.setUpvotes(upvotes);
+		post.setDownvotes(downvotes);
+		Timestamp updateTime = new Timestamp(System.currentTimeMillis());
+		post.setTimeMessageLastEdited(updateTime);
+		postService.saveOrUpdate(post);
+		Posts updatedPost = postService.findById((long)1);
+		assertEquals(upvotes, updatedPost.getUpvotes());
+		assertEquals(downvotes, updatedPost.getDownvotes());
+		assertEquals(updateTime, updatedPost.getTimeMessageLastEdited());
+	}
+	
+	@Test
+	public void removeUpvoteAndDownvoteToPostTest() {
+		Posts post = postService.findById((long)1);
+		long upvotes = post.getUpvotes();
+		long downvotes = post.getDownvotes();
+		upvotes--;
+		downvotes--;
+		post.setUpvotes(upvotes);
+		post.setDownvotes(downvotes);
+		Timestamp updateTime = new Timestamp(System.currentTimeMillis());
+		post.setTimeMessageLastEdited(updateTime);
+		postService.saveOrUpdate(post);
+		Posts updatedPost = postService.findById((long)1);
+		assertEquals(upvotes, updatedPost.getUpvotes());
+		assertEquals(downvotes, updatedPost.getDownvotes());
+		assertEquals(updateTime, updatedPost.getTimeMessageLastEdited());
+	}
 }

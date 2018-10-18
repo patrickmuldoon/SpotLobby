@@ -1,5 +1,8 @@
 package com.patrick.SpotLobby.Controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +37,22 @@ public class PostsController {
 	public ResponseEntity<Posts> createPost(@Valid @RequestBody Posts post){
 		return new ResponseEntity<Posts>(null);
 	}
+	
+	@RequestMapping(value="/posts/findAll", method=RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	@Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public ResponseEntity<List<Posts>> getAllPosts(){
+		List<Posts> posts = new ArrayList<Posts>();
+		posts = postService.listAll();
+		return new ResponseEntity<List<Posts>>(posts, HttpStatus.OK);
+	}
 
+	@RequestMapping(value="/posts/findAllWithUsers", method=RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	@Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public ResponseEntity<List<Posts>> getAllPostsWithUsers(){
+		List<Posts> posts = new ArrayList<Posts>();
+		posts = postService.listAllWithUsers();
+		return new ResponseEntity<List<Posts>>(posts, HttpStatus.OK);
+	}
 }

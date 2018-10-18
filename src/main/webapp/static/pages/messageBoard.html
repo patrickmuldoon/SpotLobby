@@ -1,9 +1,24 @@
 <html>
 <head>
-<script type="text/javascript" src="static/controllers/messageBoard.js"></script>
-<link rel="stylesheet" href="/css/profile.css" type="text/css"/>
+	<link rel="stylesheet" href="/css/profile.css" type="text/css"/>
+	<script>	
+		var url = "/controllers/messageBoard.js";
+		$.getScript(url);
+	</script>
 </head>
 <div>
-	<h1>Message Board PlaceHolder</h1>
+	<h1>Message Board</h1>
+	<table style="width:100%">
+		<p>{{posts.size}}</p>
+	  <tr ng-repeat="post in posts" >
+	  	<th>{{post.message}}</th>
+	  	<th>
+	  		<span class="glyphicon glyphicon-thumbs-up">{{post.upvotes}}</span>
+	  		<span class="glyphicon glyphicon-thumbs-down">{{post.downvotes}}</span>
+	  	</th>
+	    <th>{{post.timeMessageCreated | date }}</th>
+	    <th>{{post.timeMessageLastEdited | date}}</th> 
+	  </tr>
+	</table>
 </div>
 </html>

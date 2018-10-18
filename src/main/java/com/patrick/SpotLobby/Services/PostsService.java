@@ -11,6 +11,8 @@ public interface PostsService {
 
 	List<Posts> listAll();
 	
+	List<Posts> listAllWithUsers();
+	
 	List<Posts> findByUserID(long userID);
 	
 	Posts findById(long postID);

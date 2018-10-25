@@ -9,9 +9,9 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 //map the database next, then try server again
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "userID")
-public class Users implements Serializable{
+public class Users {
 
     /**
 	 * 
@@ -50,7 +50,7 @@ public class Users implements Serializable{
     @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
     private Lobby lobby;
 
-    @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private Profile userProfile;
 
 //    @OneToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
@@ -68,8 +68,8 @@ public class Users implements Serializable{
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Followers> followingUsers;
     
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @OneToMany(mappedBy="messageOwner", cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy="messageOwner", cascade=CascadeType.PERSIST)
     private List<Posts> userPosts;
     
     @Enumerated(EnumType.STRING)
@@ -136,6 +136,15 @@ public class Users implements Serializable{
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
+	}
+	
+	public Users(long userID, String firstName, String lastName, String username, Profile profile) {
+		super();
+		this.userID = userID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.userProfile = profile;
 	}
 
 	public long getUserID() {

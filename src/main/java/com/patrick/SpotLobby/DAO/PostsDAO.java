@@ -20,7 +20,8 @@ public class PostsDAO {
 	}
 	
 	public List<Posts> findAllPostsWithUsers() {
-		List<Posts> posts = (List<Posts>) entityManager.createQuery("select p from Posts p join Users u on u.userID = p.messageOwner", Posts.class)
+		List<Posts> posts = (List<Posts>) entityManager.createQuery("select p from Posts p join Users u on u.userID = p.messageOwner"
+				+ " join Profile prof on prof.userid = u.userID", Posts.class)
 				.getResultList();
 		return posts;
 	}

@@ -6,7 +6,6 @@ angular.module("SpotLobby")
 			if(response.status === 200){
 				$scope.posts = response.data;
 				console.log(response.data);
-				console.log(response.data.messageOwner);
 			}else
 				window.alert("Posts not loaded");
 		});
